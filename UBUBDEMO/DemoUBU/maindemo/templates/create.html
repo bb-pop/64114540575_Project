@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Demo create</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            height: 100%;
+            margin: 0;
+        }
+        
+        .header {
+            display: flex;
+            flex-direction: column;
+            background-color: #20409A;
+            padding: 10px;
+            color: white;
+        }
+        
+        .upper-layer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .lower-layer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #ffffff; /* สีขาวด้านล่าง */
+            padding: 10px;
+        }
+        
+        .logo {
+            width: 35px; /* ขนาดของโลโก้ */
+            margin-right: 10px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+        }
+        
+        .university-names {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .university-name {
+            font-size: 15px; /* ขนาดตัวอักษร */
+            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+            color: #102894; /* สีน้ำเงิน */
+        }
+        
+        .sub-university-name {
+            font-size: 13.1px; /* ขนาดตัวอักษร */
+            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+            color: #DFB612; /* สีเหลือง */
+        }
+
+        .user{
+            display: grid;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="header">
+            <div class="upper-layer">
+                <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
+            </div>
+        </div>
+        <div class="lower-layer">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+                <div class="university-names">
+                    <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                    <div class="sub-university-name">Ubon Ratchathani University</div>
+                </div>
+            <div class="user">
+                {% if user.is_authenticated %}
+                <p>{{user.first_name}} {{user.last_name}}</p>
+                <a href="logout">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+        <form action="/create/" method="POST" enctype="multipart/form-data">
+            {% csrf_token%}
+            <div>
+                <label >Name:</label>
+                <input type="text" name="name"> 
+            </div>
+            <div>
+                <label >Description:</label>
+                <input type="text" name="description"> 
+            </div>
+            <div>
+                <label >Quantity:</label>
+                <input type="number" value='0' name="quantity"> 
+            </div>
+            <div>
+                <label for="image">Images:</label>
+                <input type="file" name="image">
+            </div>
+            <button type="submit">create</button>
+        </form>
+    </div>
+</body>
+</html>
