@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Item(models.Model):
     name = models.CharField(max_length=100, verbose_name="ชื่ออุปกรณ์")
@@ -11,6 +14,18 @@ class Item(models.Model):
     def __str__(self):
         return self.name
     
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    prefix = models.CharField(max_length=100, null=True, verbose_name="คำนำหน้า")
+    first_name = models.CharField(max_length=100, null=True, verbose_name="ชื่อ")
+    last_name = models.CharField(max_length=100, null=True, verbose_name="นามสกุล")
+    email = models.EmailField(max_length=50, null=True, default="user@example.com", verbose_name="อีเมล")
+    id_student = models.CharField(max_length=11, null=True, verbose_name="รหัสนักศึกษา")
+    faculty = models.CharField(max_length=100, null=True, verbose_name="คณะ")
+
+    def __str__(self):
+        return self.user.username
+
 # สร้างหรืออัปเดตโปรไฟล์ผู้ใช้อัตโนมัติเมื่อผู้ใช้ถูกสร้างหรืออัปเดต
 # @receiver(post_save, sender=User)
 # def create_or_update_user_profile(sender, instance, created, **kwargs):

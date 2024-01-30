@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import logout
-from maindemo.models import Item
+from maindemo.models import Item, UserProfile
 from maindemo.forms import ItemForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+from .forms import UserProfileForm
 
 def home(request):
     if request.user.is_authenticated: 
@@ -60,3 +63,65 @@ def delete(request,id):
     it = Item.objects.get(pk=id)
     it.delete()
     return redirect('index')
+
+@login_required 
+@receiver(user_logged_in)
+def create_or_update_user_profile_on_login(sender, user, **kwargs):
+    UserProfile.objects.get_or_create(user=user)
+
+# @login_required
+# def user_profile(request):
+#     if not request.user.is_authenticated:
+#         return redirect('/')  # หรือเพจที่คุณต้องการเปลี่ยนเส้นทาง
+#     try:
+#         profile = request.user.userprofile
+#     except UserProfile.DoesNotExist:
+#         profile = UserProfile(user=request.user)
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profile')  # เปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการแสดงหลังจากบันทึกข้อมูล
+#     else:
+#         form = UserProfileForm(instance=profile)
+
+#     return render(request, 'profile.html', {'form': form})
+
+# @login_required
+# def user_profile(request):
+#     # ตรวจสอบว่าโปรไฟล์มีอยู่จริง
+#     profile = get_object_or_404(UserProfile, user=request.user)
+
+#     # ตรวจสอบว่าผู้ใช้ที่เข้าสู่ระบบเป็นเจ้าของโปรไฟล์
+#     if profile.user.id != request.user.id:
+#         # คุณสามารถเปลี่ยนเส้นทางไปยังหน้าอื่น หรือแสดงข้อความแจ้งเตือน
+#         return redirect('/')
+
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             # เปลี่ยนเส้นทางไปยังหน้าโปรไฟล์
+#             return redirect('/')
+#     else:
+#         form = UserProfileForm(instance=profile)
+
+#     return render(request, 'profile.html', {'form': form})
+
+@login_required
+def edit_user_profile(request, id):
+    profile = get_object_or_404(UserProfile, id=id)
+
+    # ตรวจสอบว่าผู้ใช้ที่เข้าสู่ระบบเป็นเจ้าของโปรไฟล์
+    if request.user != profile.user:
+        return redirect('some_other_page')
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_detail', id=id)
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    return render(request, 'edit_profile.html', {'form': form, 'user_profile': profile})

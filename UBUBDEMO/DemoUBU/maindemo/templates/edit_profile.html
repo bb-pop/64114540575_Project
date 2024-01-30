@@ -155,33 +155,36 @@
     </div>
     <div class="flex justify-center items-center h-screen">
         <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-            <h1 class="text-2xl font-semibold mb-6">เเก้ไขหน้าโปรไฟส์</h1>
-            <form method="POST">
+            <h1 class="text-2xl font-semibold mb-6">เเก้ไขหน้าโปรไฟล์</h1>
+            <!-- <form action="/edit/{{it.id}}/" method="POST"> -->
+                <form action="{% url 'edit-profile' id=user_profile.id %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label class="block mb-1">ชื่อจริง</label>
-                        <select class="w-full border-2 border-gray-300 p-2 rounded">
+                    <div>
+                        <select class="w-full border-2 border-gray-300 p-2 rounded" name="prefix" value="{{form.instance.prefix}}">
                             <option>นาย</option>
                             <option>นาง</option>
                             <option>นางสาว</option>
                         </select>
-                    <input type="text" name="first_name" class="w-full border-2 border-gray-300 p-2 rounded">
+                    </div>
+                    <input type="text" name="first_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{form.instance.first_name}}">
                 </div>
                 <div class="mb-4">
                     <label class="block mb-1">นามสกุล</label>
-                    <input type="text" name="last_name" class="w-full border-2 border-gray-300 p-2 rounded">
+                    <input type="text" name="last_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{form.instance.last_name}}">
                 </div>
                 <div class="mb-4">
                     <label class="block mb-1">รหัสประจำตัว</label>
-                    <input type="text" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded">
+                    <input type="text" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded" value="{{form.instance.id_student}}">
                 </div>
                 <div class="mb-4">
                     <label class="block mb-1">อีเมล</label>
-                    <input type="email" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded">
+                    <input type="email" name="email" class="w-full border-2 border-gray-300 p-2 rounded" value="{{form.instance.email}}">
                 </div>
                 <div class="mb-6">
                     <label class="block mb-1">คณะ</label>
-                    <select class="w-full border-2 border-gray-300 p-2 rounded">
+                    <select class="w-full border-2 border-gray-300 p-2 rounded" name="faculty" value="{{form.instance.prefix}}">
                         <option>คณะวิทยาศาสตร์</option>
                         <option>คณะเกษตรศาสตร์</option>
                         <option>คณะวิศวกรรมศาสตร์</option>
