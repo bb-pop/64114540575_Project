@@ -157,7 +157,7 @@
         <div class="bg-white p-8 rounded-lg shadow-lg w-96">
             <h1 class="text-2xl font-semibold mb-6">เเก้ไขหน้าโปรไฟล์</h1>
             <!-- <form action="/edit/{{it.id}}/" method="POST"> -->
-                <form action="{% url 'edit-profile' id=user_profile.id %}" method="POST">
+                <!-- <form method="POST">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label class="block mb-1">ชื่อจริง</label>
@@ -199,7 +199,53 @@
                     </select>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">บันทึก</button>
+            </form> -->
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block mb-1">ชื่อจริง</label>
+                    <div>
+                        <select class="w-full border-2 border-gray-300 p-2 rounded" name="prefix">
+                            <option value="นาย" {% if form.instance.prefix == "นาย" %}selected{% endif %}>นาย</option>
+                            <option value="นาง" {% if form.instance.prefix == "นาง" %}selected{% endif %}>นาง</option>
+                            <option value="นางสาว" {% if form.instance.prefix == "นางสาว" %}selected{% endif %}>นางสาว</option>
+                        </select>
+                    </div>
+                    <input type="text" name="first_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.first_name }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">นามสกุล</label>
+                    <input type="text" name="last_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.last_name }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">รหัสประจำตัว</label>
+                    <input type="text" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.id_student }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">อีเมล</label>
+                    <input type="email" name="email" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.email }}">
+                </div>
+                <div class="mb-6">
+                    <label class="block mb-1">คณะ</label>
+                    <select class="w-full border-2 border-gray-300 p-2 rounded" name="faculty">
+                        <!-- ทำการวนลูปเพื่อตั้งค่า selected ตามค่าในฐานข้อมูล -->
+                        <option value="คณะวิทยาศาสตร์" {% if form.instance.faculty == "คณะวิทยาศาสตร์" %}selected{% endif %}>คณะวิทยาศาสตร์</option>
+                        <option value="คณะเกษตรศาสตร์" {% if form.instance.faculty == "คณะเกษตรศาสตร์" %}selected{% endif %}>คณะเกษตรศาสตร์</option>
+                        <option value="คณะวิศวกรรมศาสตร์" {% if form.instance.faculty == "คณะวิศวกรรมศาสตร์" %}selected{% endif %}>คณะวิศวกรรมศาสตร์</option>
+                        <option value="คณะศิลปศาสตร์" {% if form.instance.faculty == "คณะศิลปศาสตร์" %}selected{% endif %}>คณะศิลปศาสตร์</option>
+                        <option value="คณะเภสัชศาสตร์" {% if form.instance.faculty == "คณะเภสัชศาสตร์" %}selected{% endif %}>คณะเภสัชศาสตร์</option>
+                        <option value="คณะบริหารศาสตร์" {% if form.instance.faculty == "คณะบริหารศาสตร์" %}selected{% endif %}>คณะบริหารศาสตร์</option>
+                        <option value="วิทยาลัยแพทยศาสตร์และการสาธารณสุข" {% if form.instance.faculty == "วิทยาลัยแพทยศาสตร์และการสาธารณสุข" %}selected{% endif %}>วิทยาลัยแพทยศาสตร์และการสาธารณสุข</option>
+                        <option value="คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์" {% if form.instance.faculty == "คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์" %}selected{% endif %}>คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์</option>
+                        <option value="คณะนิติศาสตร์" {% if form.instance.faculty == "คณะนิติศาสตร์" %}selected{% endif %}>คณะนิติศาสตร์</option>
+                        <option value="คณะรัฐศาสตร์" {% if form.instance.faculty == "คณะรัฐศาสตร์" %}selected{% endif %}>คณะรัฐศาสตร์</option>
+                        <option value="คณะพยาบาลศาสตร์" {% if form.instance.faculty == "คณะพยาบาลศาสตร์" %}selected{% endif %}>คณะพยาบาลศาสตร์</option>
+                        <!-- ทำการเพิ่ม option อื่นๆ ตามรายการด้านบน -->
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">บันทึก</button>
             </form>
+            
         </div>
     </div>
 </body>

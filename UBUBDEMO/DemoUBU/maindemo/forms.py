@@ -11,4 +11,24 @@ class ItemForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['prefix', 'first_name', 'last_name', 'email', 'id_student', 'faculty']
+        widgets = {
+            'prefix': forms.Select(choices=[('นาย', 'นาย'), ('นาง', 'นาง'), ('นางสาว', 'นางสาว')]),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'id_student': forms.TextInput(attrs={'class': 'form-control'}),
+            'faculty': forms.Select(choices=[('คณะวิทยาศาสตร์', 'คณะวิทยาศาสตร์'),
+                                            ('คณะเกษตรศาสตร์', 'คณะเกษตรศาสตร์'),
+                                            ('คณะวิศวกรรมศาสตร์', 'คณะวิศวกรรมศาสตร์'),
+                                            ('คณะศิลปศาสตร์', 'คณะศิลปศาสตร์'),
+                                            ('คณะเภสัชศาสตร์', 'คณะเภสัชศาสตร์'),
+                                            ('คณะบริหารศาสตร์', 'คณะบริหารศาสตร์'),
+                                            ('วิทยาลัยแพทยศาสตร์และการสาธารณสุข', 'วิทยาลัยแพทยศาสตร์และการสาธารณสุข'),
+                                            ('คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์', 'คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์'),
+                                            ('คณะนิติศาสตร์', 'คณะนิติศาสตร์'),
+                                            ('คณะรัฐศาสตร์', 'คณะรัฐศาสตร์'),
+                                            ('คณะพยาบาลศาสตร์', 'คณะพยาบาลศาสตร์'),
+                                            ]
+                                    )
+        }

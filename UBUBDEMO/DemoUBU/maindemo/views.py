@@ -108,20 +108,60 @@ def create_or_update_user_profile_on_login(sender, user, **kwargs):
 
 #     return render(request, 'profile.html', {'form': form})
 
+# @login_required
+# def edit_user_profile(request, id):
+#     profile = get_object_or_404(UserProfile, id=id)
+
+#     # ตรวจสอบว่าผู้ใช้ที่เข้าสู่ระบบเป็นเจ้าของโปรไฟล์
+#     if request.user != profile.user:
+#         return redirect('some_other_page')
+
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST)
+#         print(request.POST)
+#         if form.is_valid():
+#             print('กำลังจะsaveนะ')
+#             profile = request.user.userprofile_set.first()
+#             profile.first_name = request.POST.get('first_name')
+#             profile.save()
+#             return redirect('profile_detail', id=id)
+#         else:
+#             print('errors')
+#             print(form.errors)
+#     else:
+#         form = UserProfileForm(instance=profile)
+    
+#     return render(request, 'edit_profile.html', {'form': form, 'user_profile': profile})
+
 @login_required
-def edit_user_profile(request, id):
-    profile = get_object_or_404(UserProfile, id=id)
-
-    # ตรวจสอบว่าผู้ใช้ที่เข้าสู่ระบบเป็นเจ้าของโปรไฟล์
-    if request.user != profile.user:
-        return redirect('some_other_page')
-
+def edit_user_profile(request):
+    profile = get_object_or_404(UserProfile, user=request.user)
+    
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile_detail', id=id)
+            # ส่งกลับไปยังหน้าโปรไฟล์หรือหน้าอื่น
+            return redirect('index')
     else:
         form = UserProfileForm(instance=profile)
-    
-    return render(request, 'edit_profile.html', {'form': form, 'user_profile': profile})
+
+    return render(request, 'edit_profile.html', {'form': form})
+
+# def edit_user_profile(request, id):
+#     # ตรวจหา UserProfile ที่ต้องการแก้ไขด้วย ID
+#     user_profile = get_object_or_404(UserProfile, id=id)
+
+#     # ตรวจสอบว่าผู้ใช้ที่ร้องขอมีสิทธิ์แก้ไขหรือไม่
+#     if request.user != user_profile.user:
+#         return redirect('some-error-page')
+
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, instance=user_profile)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/', id=id)
+#     else:
+#         form = UserProfileForm(instance=user_profile)
+
+#     return render(request, 'edit_profile.html', {'form': form, 'user_profile': user_profile})
