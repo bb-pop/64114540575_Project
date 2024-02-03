@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo index</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Document</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body, html {
-            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            background-color: #3498db; /* Adjust the color to match the background of your image */
             height: 100%;
             margin: 0;
         }
+
+        .contact-card {
+            position: fixed; /* Position it relative to the viewport */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Offset the card by its own dimensions to center it */
+            z-index: 999; /* High z-index to ensure it's on top of other elements */
+            width: 300px; /* Set a specific width or keep it responsive */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+        }
         
-        /* ให้คลาส container ครอบ .login-box และตั้งค่าสไตล์ใหม่ */
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
-            width: auto;
+        .contact-info h2 {
+            color: #000080; /* Adjust the color to match your image */
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .contact-info p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .contact-button {
+            text-align: center;
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: #000080;
+            padding: 10px 20px; /* ระยะห่างของปุ่ม */
+            border-radius: 5px; /* มุมขอบ */
+            border: none;
+            display: block;
+            cursor: pointer;
+            width: 100%;
             height: auto;
-            /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
+        }
+
+        .contact-button:hover {
+            background-color: #0000cd; /* A lighter blue for hover effect */
         }
         
         /* ตัวอย่างการตั้งค่า z-index */
         .header, .lower-layer {
-        z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+            z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
         }
         
         .header {
@@ -83,41 +108,6 @@
             font-size: 13.1px; /* ขนาดตัวอักษร */
             margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
             color: #DFB612; /* สีเหลือง */
-        }
-        
-        .login-box {
-            width: 350px;
-            padding: 50px;
-            text-align: center;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-        }
-        
-        .login-title {
-            font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
-            margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
-        }
-        
-        .login-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #FFFFFF;
-            padding: 10px 30px; /* ระยะห่างของปุ่ม */
-            border-radius: 5px; /* มุมขอบ */
-        
-            /* รูปภาพที่ต้องการใช้ */
-            background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
-            background-size: 20px; /* ขนาดของรูปภาพ */
-            background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
-            background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
-            padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
-        
-            /* เพิ่มขอบดำ */
-            border: 1px solid #000;
-            box-sizing: border-box;
-        
-            /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
-            height: auto;
         }
         
         .user{
@@ -197,24 +187,25 @@
         .dropdown-menu a:hover {
             background-color: #ddd;
         }
-        </style>
-        <script>
-            function showCurrentTime() {
-                var today = new Date();
-                var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
-                document.getElementById('currentTime').innerHTML = time;
+
+    </style>
+    <script>
+        function showCurrentTime() {
+            var today = new Date();
+            var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
+            document.getElementById('currentTime').innerHTML = time;
+        }
+        setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
+        
+        function toggleMenu() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            if (dropdownMenu.style.display === "block") {
+                dropdownMenu.style.display = "none";
+            } else {
+                dropdownMenu.style.display = "block";
             }
-            setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
-            
-            function toggleMenu() {
-                var dropdownMenu = document.getElementById("dropdownMenu");
-                if (dropdownMenu.style.display === "block") {
-                    dropdownMenu.style.display = "none";
-                } else {
-                    dropdownMenu.style.display = "block";
-                }
-            }
-        </script>
+        }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -249,35 +240,13 @@
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    </div>
-    <div class="container mx-auto px-4">
-    <div class="grid grid-cols-5 gap-4 mt-8">
-        {% for it in items%}
-    <div class="bg-white p-4">
-        <div>
-            {% if it.image %}
-                <img src="{{ it.image.url }}" alt="{{ it.name }}" style="width: 300px; height: 200px;">
-            {% else %}
-                No Image
-            {% endif %}
+    <div class="contact-card">
+        <div class="contact-info">
+            <h2>ติดต่อเจ้าหน้าที่</h2>
+            <p>เบอร์โทรศัพท์<br>08x-xxx-xxxx</p>
+            <p>อีเมล<br>admin@gmail.com</p>
         </div>
-        <div class="text-lg mb-4">
-            {{it.name}}
-        </div>
-        <div class="text-sm mb-4">
-            {{it.description}}
-        </div>
-        <div>
-            {{it.quantity}}
-        </div>
-        <!-- <div>
-            <a href="/edit/{{it.id}}/" >edit</a>
-            <a href="/delete/{{it.id}}/" >delete</a>
-        </div> -->
-        <button class="bg-blue-500 text-white px-4 py-2" type="/">ยืม</button>
-    </div>
-        {% endfor %}
-    </div>
+        <a href="/" class="contact-button" >กลับสู่หน้าหลัก</a>
     </div>
 </body>
 </html>
