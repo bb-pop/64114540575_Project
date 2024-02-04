@@ -14,7 +14,7 @@
         }
         
         body, html {
-            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            background-color: #3498db; /* Dark blue hex code color */
             height: 100%;
             margin: 0;
         }
@@ -24,19 +24,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
+            position: relative; /* Changed from absolute to relative */
+            margin-top: 35px; /* Adjust this value so that content starts below the header */
             width: auto;
             height: auto;
-            /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
         }
         
         /* ตัวอย่างการตั้งค่า z-index */
         .header, .lower-layer {
-        z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+            z-index: 1000; /* Ensuring the header is above all other content */
+            position: relative; /* Added relative positioning */
         }
         
         .header {
@@ -57,9 +54,8 @@
             flex: 1;
             display: flex;
             align-items: center;
-            background-color: #ffffff; /* สีขาวด้านล่าง */
-            padding: 10px;
-            position: relative; /* For absolute positioning of the dropdown */
+            background-color: #ffffff; /* White color below */
+            padding: auto;
         }
         
         .logo {
@@ -85,41 +81,6 @@
             color: #DFB612; /* สีเหลือง */
         }
         
-        .login-box {
-            width: 350px;
-            padding: 50px;
-            text-align: center;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-        }
-        
-        .login-title {
-            font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
-            margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
-        }
-        
-        .login-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #FFFFFF;
-            padding: 10px 30px; /* ระยะห่างของปุ่ม */
-            border-radius: 5px; /* มุมขอบ */
-        
-            /* รูปภาพที่ต้องการใช้ */
-            background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
-            background-size: 20px; /* ขนาดของรูปภาพ */
-            background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
-            background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
-            padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
-        
-            /* เพิ่มขอบดำ */
-            border: 1px solid #000;
-            box-sizing: border-box;
-        
-            /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
-            height: auto;
-        }
-        
         .user{
             display: grid;
             margin-left: auto;
@@ -142,7 +103,7 @@
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #000080; /* Adjust to your color */
+            background-color: #20409A; /* Adjust to your color */
             margin-bottom: 4px;
         }
         
@@ -166,7 +127,7 @@
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #000080; /* Blue bars of the icon */
+            background-color: #20409A; /* Blue bars of the icon */
             margin-bottom: 5px;
         }
 
@@ -179,9 +140,9 @@
             display: none; /* Hidden by default */
             position: absolute;
             background-color: #f9f9f9;
+            box-shadow: 0 10px 50px rgba(0,0,0,.2);
             min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 999; /* Less than header but above other content */
             right: 10px; /* Adjust this to align the menu as per your design */
             top: 100px; /* Adjust this to position the menu below your top bar */
         }
@@ -196,6 +157,97 @@
 
         .dropdown-menu a:hover {
             background-color: #ddd;
+        }
+
+        .borrow-button {
+            text-align: center;
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: #20409A;
+            padding: 10px 10px;
+            border-radius: 5px;
+            border: none;
+            display: inline-block; /* Changed from block to inline-block */
+            cursor: pointer;
+            width: 50%; /* Adjusted to take the necessary space */
+            margin-right: 10px; /* Add some space between button and count */
+        }
+
+        .item-count {
+            font-size: 13px;
+            display: inline-block; /* Changed from grid to inline-block */
+            text-align: right;
+        }
+
+        .item-image {
+            width: 250px;
+            height: 250px;
+            box-shadow: 0 10px 50px rgba(0,0,0,.2);
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: #E02D29;
+            margin: auto;
+        }
+
+        .item-name {
+            font-size: large;
+            margin: auto;
+            font-weight: bold;
+        }
+
+        .item-background {
+            background-color: #fff;
+            padding: 0.5rem;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between; /* This will put space between the button and the count */
+            align-items: center;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .search-input {
+            border: none;
+            padding: 10px;
+            width: 200px; /* You can adjust this width as needed */
+            font-size: 16px;
+        }
+        
+        .search-button {
+            background-color: #20409A;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+          /* Ensure styles are not disrupted by default browser styles */
+        .search-input:focus,
+        .search-button:focus {
+            outline: none;
+        }
+        
+          /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .search-input {
+              width: 150px; /* Smaller width on smaller screens */
+            }
         }
         </style>
         <script>
@@ -224,10 +276,18 @@
     </div>
     <div class="lower-layer">
         <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-            <div class="university-names">
-                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-                <div class="sub-university-name">Ubon Ratchathani University</div>
+        <div class="university-names">
+            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+            <div class="sub-university-name">Ubon Ratchathani University</div>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="ค้นหาจากเว็บไซต์">
+                <button class="search-button">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon"> <!-- Make sure you have a search-icon.png file -->
+                </button>
             </div>
+        </div>
         <div class="user">
             {% if user.is_authenticated %}
             <p>{{user.first_name}} {{user.last_name}}</p>
@@ -249,32 +309,33 @@
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    </div>
     <div class="container mx-auto px-4">
-    <div class="grid grid-cols-5 gap-4 mt-8">
+    <div class="grid grid-cols-4 gap-4 mt-8">
         {% for it in items%}
-    <div class="bg-white p-4">
+    <div class="item-background">
         <div>
             {% if it.image %}
-                <img src="{{ it.image.url }}" alt="{{ it.name }}" style="width: 300px; height: 200px;">
+                <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
             {% else %}
                 No Image
             {% endif %}
         </div>
-        <div class="text-lg mb-4">
+        <div class="item-name">
             {{it.name}}
         </div>
-        <div class="text-sm mb-4">
-            {{it.description}}
-        </div>
-        <div>
-            {{it.quantity}}
+        <div class="item-description">
+            *{{it.description}}*
         </div>
         <!-- <div>
             <a href="/edit/{{it.id}}/" >edit</a>
             <a href="/delete/{{it.id}}/" >delete</a>
         </div> -->
-        <button class="bg-blue-500 text-white px-4 py-2" type="/">ยืม</button>
+        <div class="flex-container">
+            <a href="#" class="borrow-button mb-auto">ยืม</a> 
+            <div class="item-count">
+                เหลือ {{it.quantity}}
+            </div>
+        </div>
     </div>
         {% endfor %}
     </div>

@@ -4,24 +4,24 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Item(models.Model):
-    name = models.CharField(max_length=100, verbose_name="ชื่ออุปกรณ์")
-    description = models.TextField(verbose_name="รายละเอียด")
-    image = models.ImageField(upload_to='Item_images/', blank=True, null=True, verbose_name="รูปภาพ")
-    quantity = models.PositiveIntegerField(default=0, verbose_name="จำนวน")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="เวลาที่เพิ่ม")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="เวลาที่อัปเดต")
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=100)
+    image = models.ImageField(upload_to='Item_images/', blank=True, null=True)
+    quantity = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    prefix = models.CharField(max_length=100, null=True, verbose_name="คำนำหน้า")
-    first_name = models.CharField(max_length=100, null=True, verbose_name="ชื่อ")
-    last_name = models.CharField(max_length=100, null=True, verbose_name="นามสกุล")
-    email = models.EmailField(max_length=50, null=True, default="user@example.com", verbose_name="อีเมล")
-    id_student = models.CharField(max_length=11, null=True, verbose_name="รหัสนักศึกษา")
-    faculty = models.CharField(max_length=100, null=True, verbose_name="คณะ")
+    prefix = models.CharField(max_length=100, null=True)
+    first_name = models.CharField(max_length=100, null=True)
+    last_name = models.CharField(max_length=100, null=True)
+    email = models.EmailField(max_length=50, null=True, default="user@example.com")
+    id_student = models.CharField(max_length=11, null=True)
+    faculty = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.user.username
