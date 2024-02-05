@@ -211,7 +211,7 @@
             background-color: #20409A;
             padding: 10px 10px;
             border-radius: 5px;
-            margin-top: 150px;
+            margin-top: 100px;
             border: none;
             display: inline-block; /* Changed from block to inline-block */
             cursor: pointer;
@@ -220,6 +220,14 @@
         
         .borrow-button:hover {
             background-color: #1a3370;
+        }
+
+        .confine span {
+            display: block;
+            width: auto;
+            height: 2px;
+            background-color: #000000; /* Blue bars of the icon */
+            margin-top: auto;
         }
         </style>
         <script>
@@ -267,7 +275,7 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <!-- Menu Items -->
+        <a href="/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
         <a href="#">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
@@ -282,6 +290,9 @@
             <h1 class="item-title">{{it.name}}</h1>
             <p class="item-description">จำนวนที่เหลือ {{it.quantity}}</p>
             <p class="item-quantity">*{{it.description}}*</p>
+            <div class="confine">
+                <span></span>
+            </div>
             <div class="item-actions">
                 <button class="borrow-button">ยืม</button>
             </div>

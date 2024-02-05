@@ -18,15 +18,15 @@
         }
 
         .contact-card {
-            position: fixed; /* Position it relative to the viewport */
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Offset the card by its own dimensions to center it */
-            z-index: 999; /* High z-index to ensure it's on top of other elements */
-            width: 300px; /* Set a specific width or keep it responsive */
+            position: fixed; 
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 999; 
+            width: 500px;
+            height: 300px;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 50px 50px rgba(0, 0, 0, 0.2);
             background-color: #ffffff;
         }
         
@@ -34,9 +34,11 @@
             color: #000080; /* Adjust the color to match your image */
             text-align: center;
             margin-bottom: 16px;
+            font-size: 35px;
         }
         
         .contact-info p {
+            font-size: 25px;
             color: #555;
             line-height: 1.5;
         }
@@ -233,7 +235,7 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <!-- Menu Items -->
+        <a href="/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
         <a href="#">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
