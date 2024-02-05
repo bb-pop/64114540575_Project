@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo detail</title>
     <link rel="stylesheet" href="static/style.css">
-    <title>Demo create</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
         
         body, html {
-            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            background-color: #3498db; /* Dark blue hex code color */
             height: 100%;
             margin: 0;
         }
@@ -23,19 +23,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
+            position: relative; /* Changed from absolute to relative */
+            margin-top: 35px; /* Adjust this value so that content starts below the header */
             width: auto;
             height: auto;
-            /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
         }
         
         /* ตัวอย่างการตั้งค่า z-index */
         .header, .lower-layer {
-        z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+            z-index: 1000; /* Ensuring the header is above all other content */
+            position: relative; /* Added relative positioning */
         }
         
         .header {
@@ -56,7 +53,7 @@
             flex: 1;
             display: flex;
             align-items: center;
-            background-color: #ffffff; /* สีขาวด้านล่าง */
+            background-color: #ffffff; /* White color below */
             padding: auto;
             height: 65px;
         }
@@ -84,41 +81,6 @@
             color: #DFB612; /* สีเหลือง */
         }
         
-        .login-box {
-            width: 350px;
-            padding: 50px;
-            text-align: center;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-        }
-        
-        .login-title {
-            font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
-            margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
-        }
-        
-        .login-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #FFFFFF;
-            padding: 10px 30px; /* ระยะห่างของปุ่ม */
-            border-radius: 5px; /* มุมขอบ */
-        
-            /* รูปภาพที่ต้องการใช้ */
-            background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
-            background-size: 20px; /* ขนาดของรูปภาพ */
-            background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
-            background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
-            padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
-        
-            /* เพิ่มขอบดำ */
-            border: 1px solid #000;
-            box-sizing: border-box;
-        
-            /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
-            height: auto;
-        }
-        
         .user{
             display: grid;
             margin-left: auto;
@@ -141,7 +103,7 @@
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #000080; /* Adjust to your color */
+            background-color: #20409A; /* Adjust to your color */
             margin-bottom: 4px;
         }
         
@@ -165,7 +127,7 @@
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #000080; /* Blue bars of the icon */
+            background-color: #20409A; /* Blue bars of the icon */
             margin-bottom: 5px;
         }
 
@@ -178,9 +140,9 @@
             display: none; /* Hidden by default */
             position: absolute;
             background-color: #f9f9f9;
+            box-shadow: 0 10px 50px rgba(0,0,0,.2);
             min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 999; /* Less than header but above other content */
             right: 10px; /* Adjust this to align the menu as per your design */
             top: 100px; /* Adjust this to position the menu below your top bar */
         }
@@ -195,6 +157,69 @@
 
         .dropdown-menu a:hover {
             background-color: #ddd;
+        }
+
+        .item-detail-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            margin-top: 50px;
+            padding: 20px;
+            width: 800px;
+            height: 550px;
+        }
+        
+        .item-image-container {
+            border: 1px solid ;
+            padding: auto;
+            box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-image {
+            width: 500px; /* Adjust as needed */
+            height: 500px;
+        }
+        
+        .item-info-container {
+            padding: 20px;
+        }
+        
+        .item-title {
+            color: #000000; /* A color that matches your design */
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .item-description {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .item-quantity {
+            color: #E02D29;
+            margin-bottom: 10px;
+        }
+
+        .borrow-button {
+            text-align: center;
+            font-size: large;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #20409A;
+            padding: 10px 10px;
+            border-radius: 5px;
+            margin-top: 150px;
+            border: none;
+            display: inline-block; /* Changed from block to inline-block */
+            cursor: pointer;
+            width: 150px; /* Adjusted to take the necessary space */
+        }
+        
+        .borrow-button:hover {
+            background-color: #1a3370;
         }
         </style>
         <script>
@@ -223,10 +248,10 @@
     </div>
     <div class="lower-layer">
         <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-            <div class="university-names">
-                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-                <div class="sub-university-name">Ubon Ratchathani University</div>
-            </div>
+        <div class="university-names">
+            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+            <div class="sub-university-name">Ubon Ratchathani University</div>
+        </div>
         <div class="user">
             {% if user.is_authenticated %}
             <p>{{user.first_name}} {{user.last_name}}</p>
@@ -248,27 +273,19 @@
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    <div>
-        <form action="/create/" method="POST" enctype="multipart/form-data">
-            {% csrf_token%}
-            <div>
-                <label >Name:</label>
-                <input type="text" name="name"> 
+    <div class="item-detail-container">
+        <div class="item-image-container">
+            <!-- Use the actual src attribute value for your image -->
+            <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
+        </div>
+        <div class="item-info-container">
+            <h1 class="item-title">{{it.name}}</h1>
+            <p class="item-description">จำนวนที่เหลือ {{it.quantity}}</p>
+            <p class="item-quantity">*{{it.description}}*</p>
+            <div class="item-actions">
+                <button class="borrow-button">ยืม</button>
             </div>
-            <div>
-                <label >Description:</label>
-                <input type="text" name="description"> 
-            </div>
-            <div>
-                <label >Quantity:</label>
-                <input type="number" value='0' name="quantity"> 
-            </div>
-            <div>
-                <label for="image">Images:</label>
-                <input type="file" name="image">
-            </div>
-            <button type="submit">create</button>
-        </form>
+        </div>
     </div>
 </body>
 </html>

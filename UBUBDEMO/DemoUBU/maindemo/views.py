@@ -87,3 +87,11 @@ def edit_user_profile(request):
 @login_required
 def contact(request):
     return render(request, "contact.html")
+
+@login_required
+def detail(request, id):
+    it = Item.objects.get(pk=id)
+    context = {
+        'it': it,
+    }
+    return render(request, 'item_detail.html', context)

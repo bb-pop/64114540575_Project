@@ -56,6 +56,7 @@
             align-items: center;
             background-color: #ffffff; /* White color below */
             padding: auto;
+            height: 65px;
         }
         
         .logo {
@@ -209,10 +210,10 @@
         }
 
         .search-container {
+            margin: 10px; 
+            flex-grow: 2;
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin: 20px;
         }
         
         .search-box {
@@ -242,13 +243,6 @@
         .search-button:focus {
             outline: none;
         }
-        
-          /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .search-input {
-              width: 150px; /* Smaller width on smaller screens */
-            }
-        }
         </style>
         <script>
             function showCurrentTime() {
@@ -264,6 +258,26 @@
                     dropdownMenu.style.display = "none";
                 } else {
                     dropdownMenu.style.display = "block";
+                }
+            }
+
+            function searchItems() {
+                // Get the value of the input field
+                let input = document.getElementById('searchInput');
+                let filter = input.value.toUpperCase();
+                let itemContainer = document.getElementsByClassName('container')[0];
+                let items = itemContainer.getElementsByClassName('item-background');
+                // Loop through all the items and hide those that don't match the search query
+                for (let i = 0; i < items.length; i++) {
+                    let itemName = items[i].getElementsByClassName('item-name')[0];
+                    if (itemName) {
+                        let textValue = itemName.textContent || itemName.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            items[i].style.display = "";
+                        } else {
+                            items[i].style.display = "none";
+                        }
+                    }       
                 }
             }
         </script>
@@ -282,8 +296,8 @@
         </div>
         <div class="search-container">
             <div class="search-box">
-                <input type="text" class="search-input" placeholder="ค้นหาจากเว็บไซต์">
-                <button class="search-button">
+                <input type="text" class="search-input" placeholder="ค้นหาอุปกรณ์" id="searchInput">
+                <button class="search-button" onclick="searchItems()">
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon"> <!-- Make sure you have a search-icon.png file -->
                 </button>
             </div>
@@ -331,7 +345,7 @@
             <a href="/delete/{{it.id}}/" >delete</a>
         </div> -->
         <div class="flex-container">
-            <a href="#" class="borrow-button mb-auto">ยืม</a> 
+            <a href="/detail/{{it.id}}/" class="borrow-button mb-auto">ยืม</a> 
             <div class="item-count">
                 เหลือ {{it.quantity}}
             </div>
