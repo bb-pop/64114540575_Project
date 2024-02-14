@@ -14,7 +14,7 @@ from django.db.models import F
 
 def home(request):
     if request.user.is_authenticated: 
-        return redirect('/index')  # Assuming 'index' is the name of your URL pattern
+        return redirect('/index')  
     return render(request, "home.html")
 
 @login_required
@@ -33,7 +33,7 @@ def index(request):
 @login_required
 def create(request):
     if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES)  # รับข้อมูลจาก POST และ FILES (สำหรับรูปภาพ)
+        form = ItemForm(request.POST, request.FILES) 
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -185,32 +185,26 @@ def confirm(request, id):
         
         borrower = get_object_or_404(UserProfile, pk=borrower_id)
         
-        # Check if the item has enough quantity for borrowing
         if item.quantity >= quantity:
-            # Proceed with creating the BorrowRecord
             borrow_record = BorrowRecord(
                 item=item,
                 borrower=borrower,
                 quantity=quantity,
-                status='pending'  # Adjust based on your application's logic
+                status='pending' 
             )
             
             try:
-                borrow_record.save()  # This also updates the item quantity
+                borrow_record.save() 
                 
-                # After saving, manually decrease the item's quantity and save
-                # Using F() ensures the operation is atomic and avoids race conditions
                 item.quantity = F('quantity') - quantity
                 item.save()
                 
-                # Update item instance to reflect the new quantity
                 item.refresh_from_db()
                 
                 messages.success(request, "Item borrowed successfully.")
             except ValueError as e:
                 messages.error(request, str(e))
         else:
-            # Not enough items available
             messages.error(request, "Not enough items available to borrow.")
         
         return redirect('index')

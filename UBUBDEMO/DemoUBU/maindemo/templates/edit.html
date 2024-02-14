@@ -13,12 +13,11 @@
         }
         
         body, html {
-            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            background-color: #3498db;
             height: 100%;
             margin: 0;
         }
         
-        /* ให้คลาส container ครอบ .login-box และตั้งค่าสไตล์ใหม่ */
         .container {
             display: flex;
             justify-content: center;
@@ -27,15 +26,12 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
             width: auto;
             height: auto;
-            /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
         }
         
-        /* ตัวอย่างการตั้งค่า z-index */
         .header, .lower-layer {
-        z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+        z-index: 10;
         }
         
         .header {
@@ -56,14 +52,14 @@
             flex: 1;
             display: flex;
             align-items: center;
-            background-color: #ffffff; /* สีขาวด้านล่าง */
+            background-color: #ffffff;
             padding: auto;
             height: 65px;
         }
         
         .logo {
-            width: 35px; /* ขนาดของโลโก้ */
-            margin-right: 10px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+            width: 35px;
+            margin-right: 10px;
         }
         
         .university-names {
@@ -73,50 +69,15 @@
         }
         
         .university-name {
-            font-size: 15px; /* ขนาดตัวอักษร */
-            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
-            color: #102894; /* สีน้ำเงิน */
+            font-size: 15px;
+            margin-bottom: 5px; 
+            color: #102894;
         }
         
         .sub-university-name {
-            font-size: 13.1px; /* ขนาดตัวอักษร */
-            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
-            color: #DFB612; /* สีเหลือง */
-        }
-        
-        .login-box {
-            width: 350px;
-            padding: 50px;
-            text-align: center;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-        }
-        
-        .login-title {
-            font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
-            margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
-        }
-        
-        .login-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #FFFFFF;
-            padding: 10px 30px; /* ระยะห่างของปุ่ม */
-            border-radius: 5px; /* มุมขอบ */
-        
-            /* รูปภาพที่ต้องการใช้ */
-            background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
-            background-size: 20px; /* ขนาดของรูปภาพ */
-            background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
-            background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
-            padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
-        
-            /* เพิ่มขอบดำ */
-            border: 1px solid #000;
-            box-sizing: border-box;
-        
-            /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
-            height: auto;
+            font-size: 13.1px;
+            margin-bottom: 5px;
+            color: #DFB612;
         }
         
         .user{
@@ -124,24 +85,23 @@
             margin-left: auto;
         }
         
-        /* Hamburger Icon Style */
         .hamburger-menu {
             cursor: pointer;
-            display: inline-block; /* Adjust as needed */
+            display: inline-block;
         }
         
         .hamburger-icon {
             display: inline-block;
             padding: 10px;
             border-radius: 50%;
-            background-color: #fff; /* Adjust to your color */
+            background-color: #fff;
         }
         
         .hamburger-icon span {
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #20409A; /* Adjust to your color */
+            background-color: #20409A;
             margin-bottom: 4px;
         }
         
@@ -149,7 +109,6 @@
             margin-bottom: 0;
         }
         
-        /* Hamburger Icon Style */
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -158,14 +117,14 @@
         .hamburger-icon {
             padding: 10px;
             border-radius: 50%;
-            background-color: #fff; /* White background for the icon */
+            background-color: #fff;
         }
 
         .hamburger-icon span {
             display: block;
             width: 25px;
             height: 3px;
-            background-color: #20409A; /* Blue bars of the icon */
+            background-color: #20409A;
             margin-bottom: 5px;
         }
 
@@ -173,16 +132,15 @@
             margin-bottom: 0;
         }
 
-        /* Dropdown Menu Style */
         .dropdown-menu {
-            display: none; /* Hidden by default */
+            display: none;
             position: absolute;
             background-color: #f9f9f9;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
-            right: 10px; /* Adjust this to align the menu as per your design */
-            top: 100px; /* Adjust this to position the menu below your top bar */
+            right: 10px;
+            top: 100px;
         }
 
         .dropdown-menu a {

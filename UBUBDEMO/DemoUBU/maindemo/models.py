@@ -46,6 +46,7 @@ class BorrowRecord(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+
         if not self.borrow_date:
             self.borrow_date = timezone.now()
 

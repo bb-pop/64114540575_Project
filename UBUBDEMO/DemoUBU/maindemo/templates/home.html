@@ -13,12 +13,11 @@
         }
         
         body, html {
-            background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+            background-color: #3498db;
             height: 100%;
             margin: 0;
         }
         
-        /* ให้คลาส container ครอบ .login-box และตั้งค่าสไตล์ใหม่ */
         .container {
             display: flex;
             justify-content: center;
@@ -27,15 +26,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
             width: auto;
             height: auto;
-            /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
         }
         
-        /* ตัวอย่างการตั้งค่า z-index */
+
         .header, .lower-layer {
-        z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+        z-index: 10;
         }
         
         .header {
@@ -56,14 +53,14 @@
             flex: 1;
             display: flex;
             align-items: center;
-            background-color: #ffffff; /* สีขาวด้านล่าง */
+            background-color: #ffffff;
             padding: auto;
             height: 65px;
         }
         
         .logo {
-            width: 35px; /* ขนาดของโลโก้ */
-            margin-right: 10px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+            width: 35px;
+            margin-right: 10px;
         }
         
         .university-names {
@@ -73,15 +70,15 @@
         }
         
         .university-name {
-            font-size: 15px; /* ขนาดตัวอักษร */
-            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
-            color: #102894; /* สีน้ำเงิน */
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #102894;
         }
         
         .sub-university-name {
-            font-size: 13.1px; /* ขนาดตัวอักษร */
-            margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
-            color: #DFB612; /* สีเหลือง */
+            font-size: 13.1px;
+            margin-bottom: 5px;
+            color: #DFB612;
         }
         
         .login-box {
@@ -93,30 +90,24 @@
         }
         
         .login-title {
-            font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
+            margin-bottom: 45px;
         }
         
         .login-btn {
             text-decoration: none;
             color: black;
             background-color: #FFFFFF;
-            padding: 10px 30px; /* ระยะห่างของปุ่ม */
-            border-radius: 5px; /* มุมขอบ */
-        
-            /* รูปภาพที่ต้องการใช้ */
+            padding: 10px 30px;
+            border-radius: 5px;
             background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
-            background-size: 20px; /* ขนาดของรูปภาพ */
-            background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
-            background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
-            padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
-        
-            /* เพิ่มขอบดำ */
+            background-size: 20px;
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            padding-left: 40px; 
             border: 1px solid #000;
             box-sizing: border-box;
-        
-            /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
             height: auto;
         }
         

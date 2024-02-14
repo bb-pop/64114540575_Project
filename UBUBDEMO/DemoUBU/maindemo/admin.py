@@ -4,7 +4,6 @@ from . import models
 from maindemo.models import Item, UserProfile
 
 
-# Register your models here.
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = (
         'prefix', 
@@ -12,7 +11,9 @@ class UserProfileAdmin(admin.ModelAdmin):
         'first_name', 
         'last_name',
         'id_student',
-        'faculty'
+        'faculty',
+        'created_at',
+        'updated_at',
     )
     
 class ItemAdmin(admin.ModelAdmin):
@@ -25,6 +26,17 @@ class ItemAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
+    
+class BorrowRecordAdmin(admin.ModelAdmin):
+    list_display = (
+        'item', 
+        'borrower', 
+        'borrow_date', 
+        'return_date',
+        'quantity',
+        'status',
+        'updated_at',
+    )
 
 # admin.site.register(Item,ItemAdmin)
 # admin.site.register(UserProfile,UserProfileAdmin)
@@ -35,6 +47,6 @@ class DemoAdminArea(admin.AdminSite):
     
 demo_site = DemoAdminArea(name='DemoAdmin')
 
-demo_site.register(models.Item)
-demo_site.register(models.UserProfile)
-demo_site.register(models.BorrowRecord)
+demo_site.register(models.Item,ItemAdmin)
+demo_site.register(models.UserProfile,UserProfileAdmin)
+demo_site.register(models.BorrowRecord,BorrowRecordAdmin)
