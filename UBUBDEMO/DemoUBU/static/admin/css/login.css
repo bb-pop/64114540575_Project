@@ -1,0 +1,141 @@
+/* LOGIN FORM */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+    height: 100%;
+    margin: 0;
+}
+
+.login {
+    background: var(--darkened-bg);
+    height: auto;
+}
+
+.login #header {
+    height: auto;
+    padding: 15px 16px;
+    justify-content: center;
+}
+
+.login #header h1 {
+    font-size: 1.125rem;
+    margin: 0;
+}
+
+.login #header h1 a {
+    color: var(--header-link-color);
+}
+
+.login #content {
+    padding: 20px 20px 0;
+}
+
+.login #container {
+    background: var(--body-bg);
+    border: 1px solid var(--hairline-color);
+    border-radius: 4px;
+    overflow: hidden;
+    width: 28em;
+    min-width: 300px;
+    margin: 100px auto;
+    height: auto;
+}
+
+.login .form-row {
+    padding: 4px 0;
+}
+
+.login .form-row label {
+    display: block;
+    line-height: 2em;
+}
+
+.login .form-row #id_username, .login .form-row #id_password {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login .submit-row {
+    padding: 1em 0 0 0;
+    margin: 0;
+    text-align: center;
+}
+
+.login .password-reset-link {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
+    width: auto;
+    height: auto;
+    /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
+}
+
+.header, .lower-layer {
+z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: #20409A;
+    padding: 10px;
+    color: white;
+}
+
+.upper-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.lower-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff; /* สีขาวด้านล่าง */
+    padding: auto;
+    height: 65px;
+}
+
+.logo {
+    width: 35px; /* ขนาดของโลโก้ */
+    margin-right: 10px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+}
+
+.university-names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.university-name {
+    font-size: 15px; /* ขนาดตัวอักษร */
+    margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+    color: #102894; /* สีน้ำเงิน */
+}
+
+.sub-university-name {
+    font-size: 13.1px; /* ขนาดตัวอักษร */
+    margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+    color: #DFB612; /* สีเหลือง */
+}
+
+.user{
+    display: grid;
+    margin-left: auto;
+}
