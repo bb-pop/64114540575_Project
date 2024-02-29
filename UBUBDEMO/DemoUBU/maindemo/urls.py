@@ -14,5 +14,15 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('detail/<int:id>/', views.detail, name='detail'),
     path('confirm/<int:id>/', views.confirm, name='confirm'),
+    path('history/', views.history, name='history'),
+    path('cancel/<int:record_id>/', views.cancel_borrow, name='cancel_borrow'),
+    path('check-cancels/', views.check_and_cancel_borrows, name='check_cancels'),
+    path('index-admin/', views.index_admin, name='index_admin'),
+    path('approve-admin/', views.approve_admin, name='approve_admin'),
+    path('reject/<int:record_id>/', views.reject, name='reject'),
+    path('approve-borrow/<int:record_id>/', views.approve_borrow, name='approve_borrow'),
+    path('return-item/', views.return_item, name='return_item'),
+    path('return-confirm/<int:record_id>/', views.confirm_return, name='confirm_return'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

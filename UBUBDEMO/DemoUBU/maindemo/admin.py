@@ -42,7 +42,8 @@ class BorrowRecordAdmin(admin.ModelAdmin):
 # admin.site.register(UserProfile,UserProfileAdmin)
 
 class DemoAdminArea(admin.AdminSite):
-    site_header = "Demo Admin Area"
+    site_header = "หน้าผู้ดูเเลระบบ"
+    site_title = "หน้าผู้ดูเเลระบบ"
     login_template = 'demo/admin/login.html'
     
 demo_site = DemoAdminArea(name='DemoAdmin')

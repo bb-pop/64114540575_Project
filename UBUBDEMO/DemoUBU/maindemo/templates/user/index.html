@@ -241,6 +241,47 @@
         .search-button:focus {
             outline: none;
         }
+
+        .custom-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .custom-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+
+        .custom-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .custom-close:hover,
+        .custom-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .out-of-stock-button {
+            background-color: #e3342f; 
+            color: white;
+            cursor: not-allowed;
+        }
         </style>
         <script>
             function showCurrentTime() {
@@ -276,9 +317,34 @@
                     }       
                 }
             }
+
+            function openModal() {
+                document.getElementById("customModal").style.display = "block";
+            }
+            
+            function closeModal() {
+                document.getElementById("customModal").style.display = "none";
+            }
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                var now = new Date();
+                var hours = now.getHours();
+                var isBorrowableTime = hours >= 14 && hours < 22; // Borrowable time from 14:00 to 21:59
+            
+                if (!isBorrowableTime) {
+                    openModal();
+                }
+            });
         </script>
 </head>
 <body>
+    <div id="customModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close" onclick="closeModal()">&times;</span>
+            <h2>แจ้งเตือน</h2>
+            <p>ไม่สามารถยืมได้นอกเหนือจากช่วงเวลา 14:00-22:00 น.</p>
+        </div>
+    </div>
     <div class="header">
         <div class="upper-layer">
             <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
@@ -315,7 +381,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
-        <a href="#">ประวัติการยืม</a>
+        <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
@@ -341,7 +407,11 @@
             <a href="/delete/{{it.id}}/" >delete</a>
         </div> -->
         <div class="flex-container">
-            <a href="/detail/{{it.id}}/" class="borrow-button mb-auto">ยืม</a> 
+            {% if it.quantity > 0 %}
+                <a href="/detail/{{ it.id }}/" class="borrow-button mb-auto">ยืม</a> 
+            {% else %}
+                <button class="borrow-button mb-auto out-of-stock-button" disabled>หมด</button>
+            {% endif %}
             <div class="item-count">
                 เหลือ {{it.quantity}}
             </div>

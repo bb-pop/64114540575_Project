@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo History</title>
     <link rel="stylesheet" href="static/style.css">
-    <title>Demo contact</title>
     <style>
         * {
             margin: 0;
@@ -17,51 +17,7 @@
             height: 100%;
             margin: 0;
         }
-
-        .contact-card {
-            position: fixed; 
-            top: 50%; 
-            left: 50%;
-            transform: translate(-50%, -50%); 
-            z-index: 999; 
-            width: 500px;
-            height: 300px;
-            padding: 20px;
-            box-shadow: 0 50px 50px rgba(0, 0, 0, 0.2);
-            background-color: #ffffff;
-        }
         
-        .contact-info h2 {
-            color: #000080;
-            text-align: center;
-            margin-bottom: 16px;
-            font-size: 35px;
-        }
-        
-        .contact-info p {
-            font-size: 25px;
-            color: #555;
-            line-height: 1.5;
-        }
-        
-        .contact-button {
-            text-align: center;
-            text-decoration: none;
-            color: rgb(255, 255, 255);
-            background-color: #20409A;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            display: block;
-            cursor: pointer;
-            width: 100%;
-            height: auto;
-        }
-
-        .contact-button:hover {
-            background-color: #0000cd;
-        }
-
         .header, .lower-layer {
             z-index: 10;
         }
@@ -102,8 +58,8 @@
         
         .university-name {
             font-size: 15px;
-            margin-bottom: 5px; 
-            color: #102894; 
+            margin-bottom: 5px;
+            color: #102894;
         }
         
         .sub-university-name {
@@ -116,7 +72,7 @@
             display: grid;
             margin-left: auto;
         }
-
+        
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -140,7 +96,7 @@
         .hamburger-icon span:last-child {
             margin-bottom: 0;
         }
-
+        
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -186,6 +142,78 @@
         .dropdown-menu a:hover {
             background-color: #ddd;
         }
+
+        .container {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .table {
+            margin-top: 20px;
+            width: 100%; 
+            border-collapse: collapse;
+        }
+        
+        .table-container {
+            margin: auto; 
+            overflow-x: auto; 
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left;
+        }
+        
+        .table th {
+            background-color: #f2f2f2; 
+            color: #333;
+        }
+        
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+        
+        .img-thumbnail {
+            border-radius: 0.25rem;
+            width: 50px;
+            height: auto; 
+        }
+        
+        .btn {
+            text-decoration: none;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer; 
+            display: inline-block;
+            margin-right: 8px; 
+        }
+        
+        .btn-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #da190b;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+        }
     </style>
     <script>
         function showCurrentTime() {
@@ -218,9 +246,7 @@
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
         <div class="user">
-            {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
-            {% endif %}
+            <p>ADMIN</p>
             <p id="currentTime"></p>
         </div>
         <div class="hamburger-menu" onclick="toggleMenu()">
@@ -232,19 +258,51 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
-        <a href="#">ประวัติการยืม</a>
-        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/create/">เพิ่มอุปกรณ์</a>
+        <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+        <a href="/return-item/">ตารางยืนยันการคืน</a>
+        <a href="#">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    <div class="contact-card">
-        <div class="contact-info">
-            <h2>ติดต่อเจ้าหน้าที่</h2>
-            <p>เบอร์โทรศัพท์<br>08x-xxx-xxxx</p>
-            <p>อีเมล<br>admin@gmail.com</p>
+    <div class="container">
+        <div class="table-container" style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h1>ตารางยืนยันการคืน</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>รูป</th>
+                        <th>ชื่ออุกรณ์</th>
+                        <th>จำนวน</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>รหัสนักศึกษา</th>
+                        <th>เวลาที่ยืม</th>
+                        <th>อนุมัติคืน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in borrow_records %}
+                        {% if record.status == 'borrowing' %}
+                            <tr>
+                                <td><img src="{{ record.item.image.url }}" alt="{{ record.item.name }}" class="img-thumbnail"></td>
+                                <td>{{ record.item.name }}</td>
+                                <td>{{ record.quantity }}</td>
+                                <td>{{ record.borrower.first_name }} {{ record.borrower.last_name }}</td>
+                                <td>{{ record.borrower.id_student }}</td>
+                                <td>{{ record.borrow_date|date:"Y-m-d H:i" }}</td>
+                                <td>
+                                    <a href="{% url 'confirm_return' record.id %}" class="btn btn-success">ยืนยันการคืน</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">ไม่มีรายการยืมที่ต้องคืน</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <a href="/" class="contact-button" >กลับสู่หน้าหลัก</a>
     </div>
 </body>
 </html>

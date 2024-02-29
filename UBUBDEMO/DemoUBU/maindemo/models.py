@@ -32,9 +32,10 @@ class UserProfile(models.Model):
 
 class BorrowRecord(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'รออนุมัติ'),
-        ('borrowed', 'กำลังยืม'),
+        ('waiting', 'รออนุมัติ'),
+        ('borrowing', 'กำลังยืม'),
         ('returned', 'คืนแล้ว'),
+        ('cancel' , 'ยกเลิก'),
     )
     
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name="อุปกรณ์")

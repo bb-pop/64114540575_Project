@@ -186,9 +186,7 @@
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
         <div class="user">
-            {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
-            {% endif %}
+            <p>ADMIN</p>
             <p id="currentTime"></p>
         </div>
         <div class="hamburger-menu" onclick="toggleMenu()">
@@ -200,32 +198,39 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <!-- Menu Items -->
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
-        <a href="#">ประวัติการยืม</a>
-        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/create/">เพิ่มอุปกรณ์</a>
+        <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+        <a href="/return-item/">ตารางยืนยันการคืน</a>
+        <a href="#">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div>
+        <h1>Create</h1>
         <form action="/create/" method="POST" enctype="multipart/form-data">
             {% csrf_token%}
             <div>
-                <label >Name:</label>
+                <label>รูป </label>
+                <input type="file" name="image"> 
+            </div>
+            <div>
+                <label>ชื่อ </label>
                 <input type="text" name="name"> 
             </div>
             <div>
-                <label >Description:</label>
+                <label>คำบรรยาย </label>
                 <input type="text" name="description"> 
             </div>
             <div>
-                <label >Quantity:</label>
+                <label>จำนวนของ </label>
                 <input type="number" value='0' name="quantity"> 
             </div>
             <div>
-                <label for="image">Images:</label>
-                <input type="file" name="image">
+                <label>กำหนดเวลายืม </label>
+                <input type="number" value="60" name="max_borrow_time">
+                <label>นาที</label>
             </div>
-            <button type="submit">create</button>
+            <button type="submit">ยืนยันการสร้าง</button>
         </form>
     </div>
 </body>

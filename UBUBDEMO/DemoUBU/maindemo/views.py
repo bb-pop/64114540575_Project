@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
+import datetime
+from datetime import timedelta
+from django.db.models.signals import pre_save
 from django.utils import timezone
-from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import logout
@@ -15,7 +16,7 @@ from django.db.models import F
 def home(request):
     if request.user.is_authenticated: 
         return redirect('/index')  
-    return render(request, "home.html")
+    return render(request, "user/home.html")
 
 @login_required
 def logout_view(request):
@@ -28,45 +29,7 @@ def index(request):
     context = {
         'items': items
     }
-    return render(request, "index.html", context)
-
-@login_required
-def create(request):
-    if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES) 
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = ItemForm()
-    context = {
-        'form': form
-    }
-    return render(request, "create.html", context)
-
-@login_required
-def edit(request, id):
-    it = Item.objects.get(pk=id)
-    
-    if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES, instance=it)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = ItemForm(instance=it)
-    
-    context = {
-        'it': it,
-        'form': form
-    }
-    return render(request, 'edit.html', context)
-
-@login_required  
-def delete(request,id):
-    it = Item.objects.get(pk=id)
-    it.delete()
-    return redirect('index')
+    return render(request, "user/index.html", context)
 
 @login_required 
 @receiver(user_logged_in)
@@ -86,11 +49,11 @@ def edit_user_profile(request):
     else:
         form = UserProfileForm(instance=profile)
 
-    return render(request, 'edit_profile.html', {'form': form})
+    return render(request, 'user/edit_profile.html', {'form': form})
 
 @login_required
 def contact(request):
-    return render(request, "contact.html")
+    return render(request, "user/contact.html")
 
 @login_required
 def detail(request, id):
@@ -98,107 +61,47 @@ def detail(request, id):
     context = {
         'it': it,
     }
-    return render(request, 'item_detail.html', context)
-
-@login_required
-def confirm(request, id):
-    it = Item.objects.get(pk=id)
-    context = {
-        'it': it,
-    }
-    return render(request, 'confirm.html', context)
-
-# @login_required
-# def borrow_item(request, item_id):
-#     # ตรวจสอบว่าอุปกรณ์ที่ต้องการยืมมีอยู่จริงหรือไม่
-#     try:
-#         item = Item.objects.get(pk=item_id)
-#     except Item.DoesNotExist:
-#         return HttpResponse('Item does not exist', status=404)
-
-#     # สร้างหรืออัปเดต BorrowRecord
-#     if request.method == 'POST':
-#         quantity_to_borrow = int(request.POST.get('quantity', 1))
-        
-#         # ตรวจสอบว่ามีอุปกรณ์เพียงพอให้ยืมหรือไม่
-#         if item.quantity < quantity_to_borrow:
-#             return HttpResponse('Not enough items available', status=400)
-        
-#         # สร้าง record การยืมใหม่
-#         borrow_record = BorrowRecord.objects.create(
-#             item=item,
-#             borrower=request.user.userprofile,  # สมมติว่าผู้ใช้มี UserProfile เชื่อมโยงกับ User
-#             quantity=quantity_to_borrow,
-#             status='pending'  # หรืออาจตั้งค่าเป็น 'borrowed' ตามกระบวนการอนุมัติของคุณ
-#         )
-        
-#         # อัปเดตจำนวนอุปกรณ์ที่เหลือ
-#         item.quantity -= quantity_to_borrow
-#         item.save()
-
-#         return redirect('/')
-#     else:
-#         # แสดงฟอร์มหรือข้อมูลการยืมหากเป็น GET request
-#         return render(request, 'confirm.html', {'item': item})
+    return render(request, 'user/item_detail.html', context)
 
 # @login_required
 # def confirm(request, id):
-#     # Correctly get the item using its ID
-#     item = get_object_or_404(Item, pk=id)
-    
-#     if request.method == 'POST':
-#         # Assuming 'borrower_id' comes from the form or session, if not, adjust accordingly
-#         borrower_id = request.POST.get('borrower_id', request.user.userprofile.id)
-#         quantity = int(request.POST.get('quantity', 1))
-        
-#         # It's safe to assume the borrower is the logged-in user, adjust if necessary
-#         borrower = get_object_or_404(UserProfile, pk=borrower_id)
-        
-#         # Create a new BorrowRecord with the item already defined
-#         borrow_record = BorrowRecord(
-#             item=item,
-#             borrower=borrower,
-#             quantity=quantity,
-#             status='pending'  # or 'borrowed', depending on your application flow
-#         )
-        
-#         try:
-#             borrow_record.save()
-#             messages.success(request, "Item borrowed successfully.")
-#         except ValueError as e:
-#             messages.error(request, str(e))
-        
-#         # Redirect to 'index' or another appropriate view
-#         return redirect('index')
-#     else:
-#         # If not a POST request, render your form and pre-select the item
-#         # Ensure 'id' is passed correctly for form action and other uses
-#         return render(request, 'confirm.html', {'it': item, 'id': item.id})
+#     it = Item.objects.get(pk=id)
+#     context = {
+#         'it': it,
+#     }
+#     return render(request, 'confirm.html', context)
 
 @login_required
 def confirm(request, id):
     item = get_object_or_404(Item, pk=id)
-    
+    # current_time = timezone.localtime(timezone.now()).time()
+    # start_time = datetime.time(14, 0) 
+    # end_time = datetime.time(22, 0)  
+
+    # if not start_time <= current_time <= end_time:
+    #     return redirect('index')
+
+    # ตรวจสอบประวัติการยืมที่มีสถานะ "waiting" หรือ "borrowing"
+    existing_borrow = BorrowRecord.objects.filter(borrower=request.user.userprofile, status__in=['waiting', 'borrowing']).exists()
+    if existing_borrow:
+        return redirect('index')
+
     if request.method == 'POST':
-        borrower_id = request.POST.get('borrower_id', request.user.userprofile.id)  # Adjust as needed
         quantity = int(request.POST.get('quantity', 1))
-        
-        borrower = get_object_or_404(UserProfile, pk=borrower_id)
         
         if item.quantity >= quantity:
             borrow_record = BorrowRecord(
                 item=item,
-                borrower=borrower,
+                borrower=request.user.userprofile,
                 quantity=quantity,
-                status='pending' 
+                status='waiting'
             )
             
             try:
-                borrow_record.save() 
+                borrow_record.save()
                 
                 item.quantity = F('quantity') - quantity
                 item.save()
-                
                 item.refresh_from_db()
                 
                 messages.success(request, "Item borrowed successfully.")
@@ -207,6 +110,175 @@ def confirm(request, id):
         else:
             messages.error(request, "Not enough items available to borrow.")
         
-        return redirect('index')
+        return redirect('history')
     else:
-        return render(request, 'confirm.html', {'it': item, 'id': item.id})
+        return render(request, 'user/confirm.html', {'it': item, 'id': item.id})
+
+@login_required
+def history(request):
+    user_profile = request.user.userprofile
+    borrow_records = BorrowRecord.objects.filter(borrower=user_profile).order_by('-borrow_date')
+
+    return render(request, 'user/history.html', {'borrow_records': borrow_records})
+
+@login_required
+def cancel_borrow(request, record_id):
+    record = get_object_or_404(BorrowRecord, id=record_id, borrower=request.user.userprofile, status='waiting')
+    record.status = 'cancel'
+    record.save()
+
+    # เพิ่มจำนวนอุปกรณ์กลับ
+    record.item.quantity += record.quantity
+    record.item.save()
+
+    return redirect('history')
+
+# @receiver(pre_save, sender=BorrowRecord)
+# def update_quantity(sender, instance, **kwargs):
+#     if instance.pk:
+#         old_record = BorrowRecord.objects.get(pk=instance.pk)
+#         if old_record.status == 'borrowing' and instance.status == 'returned':
+#             instance.item.quantity += instance.quantity
+#             instance.item.save()
+#         elif old_record.status == 'waiting' and instance.status == 'cancel':
+#             pass
+
+@login_required
+def check_and_cancel_borrows(request):
+    now = timezone.now()
+    ten_minutes_ago = now - timedelta(minutes=10)
+    records_to_cancel = BorrowRecord.objects.filter(status='waiting', borrow_date__lte=ten_minutes_ago)
+
+    count = 0
+    for record in records_to_cancel:
+        record.status = 'cancel'
+        record.save()
+        record.item.quantity += record.quantity  # ตรวจสอบว่าโมเดล Item มีฟิลด์ quantity และสามารถเพิ่มค่าได้
+        record.item.save()
+        count += 1
+
+    messages.success(request, f'Cancelled {count} borrow records.')
+    return redirect('/')
+
+@login_required
+def index_admin(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    items = Item.objects.all()
+    context = {
+        'items': items
+    }
+    return render(request, "admin/index-admin.html", context)
+
+@login_required
+def create(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES) 
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = ItemForm()
+    context = {
+        'form': form
+    }
+    return render(request, "admin/create.html", context)
+
+@login_required
+def edit(request, id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    it = Item.objects.get(pk=id)
+    
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES, instance=it)
+        if form.is_valid():
+            form.save()
+            return redirect('index_admin')
+    else:
+        form = ItemForm(instance=it)
+    
+    context = {
+        'it': it,
+        'form': form
+    }
+    return render(request, 'admin/edit.html', context)
+
+@login_required  
+def delete(request,id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    it = Item.objects.get(pk=id)
+    it.delete()
+    return redirect('index_admin')
+
+@login_required
+def approve_admin(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    #BorrowRecord ที่มีสถานะ 'waiting'
+    borrow_records = BorrowRecord.objects.filter(status='waiting')
+    return render(request, 'admin/approve-borrow.html', {'borrow_records': borrow_records})
+
+@login_required
+def reject (request, record_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrow_record = get_object_or_404(BorrowRecord, pk=record_id)
+
+    if borrow_record.status == 'waiting' and request.user.has_perm('maindemo.change_borrowrecord'):
+        borrow_record.status = 'cancel'
+        borrow_record.save()
+        borrow_record.item.quantity += borrow_record.quantity
+        borrow_record.item.save()
+    else:
+        messages.error(request, "")
+
+    return redirect('approve_admin')
+
+@login_required
+def approve_borrow(request, record_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrow_record = get_object_or_404(BorrowRecord, pk=record_id)
+
+    if borrow_record.status == 'waiting' and request.user.has_perm('maindemo.change_borrowrecord'):
+        borrow_record.status = 'borrowing'
+        borrow_record.save()
+    else:
+        messages.error(request, "")
+
+    return redirect('approve_admin')
+
+@login_required
+def return_item(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrowing_records = BorrowRecord.objects.filter(status='borrowing').order_by('-borrow_date')
+    return render(request, 'admin/return_item.html', {'borrow_records': borrowing_records})
+
+@login_required
+def confirm_return(request, record_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrow_record = get_object_or_404(BorrowRecord, pk=record_id, status='borrowing')
+    borrow_record.status = 'returned'
+    borrow_record.return_date = timezone.now()  
+    borrow_record.save()
+
+    item = borrow_record.item
+    item.quantity += borrow_record.quantity
+    item.save()
+
+    return redirect('return_item')

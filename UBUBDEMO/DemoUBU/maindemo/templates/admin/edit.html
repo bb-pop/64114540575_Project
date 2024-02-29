@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo detail</title>
     <link rel="stylesheet" href="static/style.css">
+    <title>Demo Edit</title>
     <style>
         * {
             margin: 0;
@@ -22,16 +22,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            margin-top: 35px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: auto;
             height: auto;
         }
-
-
+        
         .header, .lower-layer {
-            z-index: 1000;
-            position: relative;
+        z-index: 10;
         }
         
         .header {
@@ -70,14 +70,14 @@
         
         .university-name {
             font-size: 15px;
-            margin-bottom: 5px;
+            margin-bottom: 5px; 
             color: #102894;
         }
         
         .sub-university-name {
             font-size: 13.1px;
             margin-bottom: 5px;
-            color: #DFB612; 
+            color: #DFB612;
         }
         
         .user{
@@ -85,7 +85,6 @@
             margin-left: auto;
         }
         
-
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -133,14 +132,13 @@
             margin-bottom: 0;
         }
 
-
         .dropdown-menu {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            box-shadow: 0 10px 50px rgba(0,0,0,.2);
             min-width: 160px;
-            z-index: 999;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
             right: 10px;
             top: 100px;
         }
@@ -155,77 +153,6 @@
 
         .dropdown-menu a:hover {
             background-color: #ddd;
-        }
-
-        .item-detail-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffffff;
-            box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
-            margin-top: 50px;
-            padding: 20px;
-            width: 800px;
-            height: 550px;
-        }
-        
-        .item-image-container {
-            border: 1px solid ;
-            padding: auto;
-            box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.1);
-        }
-        
-        .item-image {
-            width: 500px;
-            height: 500px;
-        }
-        
-        .item-info-container {
-            padding: 20px;
-        }
-        
-        .item-title {
-            color: #000000;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .item-description {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .item-quantity {
-            color: #E02D29;
-            margin-bottom: 10px;
-        }
-
-        .borrow-button {
-            text-align: center;
-            font-size: large;
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #20409A;
-            padding: 10px 10px;
-            border-radius: 5px;
-            margin-top: 100px;
-            border: none;
-            display: inline-block;
-            cursor: pointer;
-            width: 150px;
-        }
-        
-        .borrow-button:hover {
-            background-color: #1a3370;
-        }
-
-        .confine span {
-            display: block;
-            width: auto;
-            height: 2px;
-            background-color: #000000;
-            margin-top: auto;
         }
         </style>
         <script>
@@ -254,14 +181,12 @@
     </div>
     <div class="lower-layer">
         <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-        <div class="university-names">
-            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-            <div class="sub-university-name">Ubon Ratchathani University</div>
-        </div>
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
         <div class="user">
-            {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
-            {% endif %}
+            <p>ADMIN</p>
             <p id="currentTime"></p>
         </div>
         <div class="hamburger-menu" onclick="toggleMenu()">
@@ -273,27 +198,40 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
-        <a href="#">ประวัติการยืม</a>
-        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/create/">เพิ่มอุปกรณ์</a>
+        <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+        <a href="/return-item/">ตารางยืนยันการคืน</a>
+        <a href="#">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    <div class="item-detail-container">
-        <div class="item-image-container">
-            <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
-        </div>
-        <div class="item-info-container">
-            <h1 class="item-title">{{it.name}}</h1>
-            <p class="item-description">จำนวนที่เหลือ {{it.quantity}}</p>
-            <p class="item-quantity">*{{it.description}}*</p>
-            <div class="confine">
-                <span></span>
+    </div>
+    <h1>Edit</h1>
+    <div>
+        <form action="/edit/{{it.id}}/" method="POST">
+            {% csrf_token%}
+            <div>
+                <label>ชื่อ </label>
+                <input type="text" name="name" value="{{form.instance.name}}">
             </div>
-            <div class="item-actions">
-                <a href="/confirm/{{it.id}}/" class="borrow-button">ยืม</a>
+            <div>
+                <label>คำบรรยาย </label>
+                <input type="text" name="description" value="{{form.instance.description}}">
             </div>
-        </div>
+            <div>
+                <label>จำนวนของ </label>
+                <input type="number" name="quantity" value="{{form.instance.quantity}}">
+            </div>
+            <div>
+                <label>รูป </label>
+                <input type="file" name="image" value="{{form.instance.image}}">
+            </div>
+            <div>
+                <label>กำหนดเวลายืม </label>
+                <input type="number" name="max_borrow_time" value="{{form.instance.max_borrow_time}}">
+            </div>
+            <button type="submit">ยืนยันการเเก้ไข</button>
+        </form>
     </div>
 </body>
 </html>
