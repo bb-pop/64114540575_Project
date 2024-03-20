@@ -154,6 +154,13 @@
         .dropdown-menu a:hover {
             background-color: #ddd;
         }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
         </style>
         <script>
             function showCurrentTime() {
@@ -180,11 +187,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
+        </a>
         <div class="user">
             <p>ADMIN</p>
             <p id="currentTime"></p>
@@ -198,11 +207,12 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/check-admin/">กลับไปหน้าหลัก</a>
         <a href="/create/">เพิ่มอุปกรณ์</a>
         <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
         <a href="/return-item/">ตารางยืนยันการคืน</a>
-        <a href="#">Dashboard</a>
+        <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+        <a href="/dashboard/">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div>

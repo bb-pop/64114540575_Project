@@ -43,18 +43,6 @@
 </p>
 {% endif %}
 
-<div class="header">
-    <div class="upper-layer">
-        <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
-    </div>
-</div>
-<div class="lower-layer">
-    <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-        <div class="university-names">
-            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-            <div class="sub-university-name">Ubon Ratchathani University</div>
-        </div>
-</div>
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
     <div class="form-row">
         {{ form.username.errors }}

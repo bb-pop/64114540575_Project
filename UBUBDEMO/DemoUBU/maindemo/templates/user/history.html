@@ -224,16 +224,30 @@
             text-align: center;
         }
 
-        .button {
+        .status-noreturn {
+            font-size: 20px;
+            display: block;
+            color: #20409A;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+        
+
+        .cancel-button {
             font-size: 18px;
-            padding: 8px 16px;
-            background-color: #ef4444;
+            padding: 12px 12px;
+            text-align: center;
+            text-decoration: none;
             color: #fff;
+            background-color: #ef4444;
+            border-radius: 8px;
             border: none;
+            display: inline-block;
+            cursor: pointer;
             height: 50px;
             width: 100px;
-            border-radius: 8px;
-            cursor: pointer;
+            margin-top: 5px;
             margin-left: auto;
             align-self: flex-end;
         }
@@ -275,6 +289,13 @@
             width: 100%;
             margin-left: 20px;
         }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
     </style>
     <script>
         function showCurrentTime() {
@@ -301,11 +322,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
+        </a>
         <div class="user">
             {% if user.is_authenticated %}
             <p>{{user.first_name}} {{user.last_name}}</p>
@@ -321,7 +344,7 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/">กลับไปหน้าหลัก</a>
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
@@ -340,12 +363,17 @@
                         <span class="time">เวลาที่ต้องคืน: {{ record.return_date|date:"d/m/Y H:i" }}</span>
                     </div>
                     <div class="status-and-button">
-                        <span class="status {% if record.status == 'waiting' %}status-waiting{% elif record.status == 'borrowing' %}status-borrowing{% elif record.status == 'returned' %}status-returned{% elif record.status == 'cancel' %}status-cancel{% endif %}">
+                        <span class="status 
+                                    {% if record.status == 'waiting' %}status-waiting
+                                    {% elif record.status == 'borrowing' %}status-borrowing
+                                    {% elif record.status == 'returned' %}status-returned
+                                    {% elif record.status == 'cancel' %}status-cancel
+                                    {% elif record.status == 'notreturn' %}status-noreturn
+                                    {% endif %}">
                             {{ record.get_status_display }}
                         </span>
                         {% if record.status == 'waiting' %}
-                            <!-- <button class="button">ยกเลิก</button> -->
-                            <a href="{% url 'cancel_borrow' record.id %}" class="button">ยกเลิก</a>
+                            <a href="{% url 'cancel_borrow' record.id %}" class="cancel-button">ยกเลิก</a>
                         {% endif %}
                     </div>
                 </div>

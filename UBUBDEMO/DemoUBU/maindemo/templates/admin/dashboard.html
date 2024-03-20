@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
-    <title>Demo Contact</title>
+    <title>Demo Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -17,51 +16,7 @@
             height: 100%;
             margin: 0;
         }
-
-        .contact-card {
-            position: fixed; 
-            top: 50%; 
-            left: 50%;
-            transform: translate(-50%, -50%); 
-            z-index: 999; 
-            width: 500px;
-            height: 300px;
-            padding: 20px;
-            box-shadow: 0 50px 50px rgba(0, 0, 0, 0.2);
-            background-color: #ffffff;
-        }
         
-        .contact-info h2 {
-            color: #000080;
-            text-align: center;
-            margin-bottom: 16px;
-            font-size: 35px;
-        }
-        
-        .contact-info p {
-            font-size: 25px;
-            color: #555;
-            line-height: 1.5;
-        }
-        
-        .contact-button {
-            text-align: center;
-            text-decoration: none;
-            color: rgb(255, 255, 255);
-            background-color: #20409A;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            display: block;
-            cursor: pointer;
-            width: 100%;
-            height: auto;
-        }
-
-        .contact-button:hover {
-            background-color: #0000cd;
-        }
-
         .header, .lower-layer {
             z-index: 10;
         }
@@ -102,8 +57,8 @@
         
         .university-name {
             font-size: 15px;
-            margin-bottom: 5px; 
-            color: #102894; 
+            margin-bottom: 5px;
+            color: #102894;
         }
         
         .sub-university-name {
@@ -116,7 +71,7 @@
             display: grid;
             margin-left: auto;
         }
-
+        
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -140,7 +95,7 @@
         .hamburger-icon span:last-child {
             margin-bottom: 0;
         }
-
+        
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -187,6 +142,37 @@
             background-color: #ddd;
         }
 
+        .bar-chart-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px; /* Adjust as needed */
+        }
+        .bar {
+            height: 20px;
+            background-color: #4CAF50;
+            margin: 10px 0;
+            color: white;
+            padding: 5px;
+            width: 0%; /* Start with 0 width */
+            transition: width 2s;
+        }
+        .pie-chart-placeholder {
+            height: 300px; /* Placeholder height */
+            background-color: #f3f3f3; /* Placeholder color */
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            margin: 20px 0;
+            position: relative; /* For centering the text */
+        }
+        .pie-chart-placeholder::after {
+            content: 'Pie chart goes here';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+        }
+
         .header-link {
             display: flex;
             align-items: center;
@@ -219,7 +205,7 @@
         </div>
     </div>
     <div class="lower-layer">
-        <a href="/check-cancels/" class="header-link">
+        <a href="/check-admin/" class="header-link">
             <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
@@ -227,9 +213,7 @@
             </div>
         </a>
         <div class="user">
-            {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
-            {% endif %}
+            <p>ADMIN</p>
             <p id="currentTime"></p>
         </div>
         <div class="hamburger-menu" onclick="toggleMenu()">
@@ -241,19 +225,20 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
-        <a href="/history/">ประวัติการยืม</a>
-        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/check-admin/">กลับไปหน้าหลัก</a>
+        <a href="/create/">เพิ่มอุปกรณ์</a>
+        <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+        <a href="/return-item/">ตารางยืนยันการคืน</a>
+        <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+        <a href="/dashboard/">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    <div class="contact-card">
-        <div class="contact-info">
-            <h2>ติดต่อเจ้าหน้าที่</h2>
-            <p>เบอร์โทรศัพท์<br>08x-xxx-xxxx</p>
-            <p>อีเมล<br>admin@gmail.com</p>
-        </div>
-        <a href="/" class="contact-button" >กลับสู่หน้าหลัก</a>
-    </div>
+    <!-- <div class="bar-chart-container">
+        {% for item in popular_items %}
+            <div class="bar-container">
+                <div class="bar" style="width: {{ item.some_popularity_metric|floatformat:"2"|divisibleby:max_count_popular|mul:100 }}%;">{{ item.name }} ({{ item.some_popularity_metric }})</div>
+            </div>
+        {% endfor %}
+    </div> -->
 </body>
 </html>

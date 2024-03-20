@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo History</title>
+    <title>Demo Returnitem</title>
     <link rel="stylesheet" href="static/style.css">
     <style>
         * {
@@ -157,6 +157,7 @@
         }
         
         .table-container {
+            width: 1000px;
             margin: auto; 
             overflow-x: auto; 
         }
@@ -200,19 +201,64 @@
             background-color: #45a049;
         }
         
-        .btn-danger {
-            background-color: #f44336;
+        .btn-noreturn {
+            background-color: #f1c40f;
             color: white;
         }
         
-        .btn-danger:hover {
-            background-color: #da190b;
+        .btn-noreturn:hover {
+            background-color: #c49f0d;
         }
         
         @media (max-width: 768px) {
             .container {
                 width: 100%;
             }
+        }
+        
+        .titlename {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .search-container {
+            flex-grow: 2;
+            display: flex;
+            justify-content: right;
+        }
+        
+        .search-box {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .search-input {
+            border: none;
+            padding: 10px;
+            width: 200px;
+            font-size: 16px;
+        }
+        
+        .search-button {
+            background-color: #20409A;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .search-input:focus,
+        .search-button:focus {
+            outline: none;
         }
     </style>
     <script>
@@ -231,6 +277,32 @@
                 dropdownMenu.style.display = "block";
             }
         }
+
+        function searchItems() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toUpperCase();
+            let tableContainer = document.getElementsByClassName('table-container')[0]; // Assuming your table is within this container
+            let rows = tableContainer.getElementsByTagName('tr');
+        
+            for (let i = 1; i < rows.length; i++) { // Start with 1 to skip the header row
+                let idCell = rows[i].getElementsByClassName('id-student')[0];
+                if (idCell) {
+                    let textValue = idCell.textContent || idCell.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        rows[i].style.display = ""; // Show the row
+                    } else {
+                        rows[i].style.display = "none"; // Hide the row
+                    }
+                }
+            }
+        }
+
+        function enterSearch(event) {
+            // ตรวจสอบว่าปุ่มที่กดคือ Enter หรือไม่
+            if (event.keyCode === 13) { // 13 คือรหัสของปุ่ม Enter
+                searchItems();
+            }
+        }
     </script>
 </head>
 <body>
@@ -240,11 +312,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
+        </a>
         <div class="user">
             <p>ADMIN</p>
             <p id="currentTime"></p>
@@ -258,16 +332,25 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/check-admin/">กลับไปหน้าหลัก</a>
         <a href="/create/">เพิ่มอุปกรณ์</a>
         <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
         <a href="/return-item/">ตารางยืนยันการคืน</a>
-        <a href="#">Dashboard</a>
+        <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+        <a href="/dashboard/">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div class="container">
         <div class="table-container" style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <h1>ตารางยืนยันการคืน</h1>
+            <h1 class="titlename">ตารางยืนยันการคืน</h1>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="ค้นหาด้วยรหัสนักศึกษา" id="searchInput" onkeyup="enterSearch(event)">
+                    <button class="search-button" onclick="searchItems()">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon">
+                    </button>
+                </div>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -276,8 +359,10 @@
                         <th>จำนวน</th>
                         <th>ชื่อ-นามสกุล</th>
                         <th>รหัสนักศึกษา</th>
+                        <th>วันที่ยืม</th>
                         <th>เวลาที่ยืม</th>
                         <th>อนุมัติคืน</th>
+                        <th>ยังไม่คืน</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -288,16 +373,20 @@
                                 <td>{{ record.item.name }}</td>
                                 <td>{{ record.quantity }}</td>
                                 <td>{{ record.borrower.first_name }} {{ record.borrower.last_name }}</td>
-                                <td>{{ record.borrower.id_student }}</td>
-                                <td>{{ record.borrow_date|date:"Y-m-d H:i" }}</td>
+                                <td class="id-student">{{ record.borrower.id_student }}</td>
+                                <td>{{ record.borrow_date|date:"d/m/y" }}</td>
+                                <td>{{ record.borrow_date|date:"H:i น." }}</td>
                                 <td>
                                     <a href="{% url 'confirm_return' record.id %}" class="btn btn-success">ยืนยันการคืน</a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'not_returned' record.id %}" class="btn btn-noreturn">ยังไม่คืน</a>
                                 </td>
                             </tr>
                         {% endif %}
                     {% empty %}
                         <tr>
-                            <td colspan="7">ไม่มีรายการยืมที่ต้องคืน</td>
+                            <td colspan="9">ไม่มีรายการยืมที่ต้องคืน</td>
                         </tr>
                     {% endfor %}
                 </tbody>

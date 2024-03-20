@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo index-admin</title>
+    <title>Demo Index-admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="static/style.css">
     <style>
@@ -228,45 +228,49 @@
             outline: none;
         }
 
-        .custom-modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .custom-modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; 
-        }
-
-        .custom-close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .custom-close:hover,
-        .custom-close:focus {
-            color: black;
+        .edit-button {
+            text-align: center;
             text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: #20409A;
+            padding: 10px 10px;
+            border-radius: 5px;
+            border: none;
+            display: inline-block;
+            cursor: pointer;
+            width: 70px;
+        }
+
+        .delete-button {
+            text-align: center;
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: #e3342f;
+            padding: 10px 10px;
+            border-radius: 5px;
+            border: none;
+            width: 70px;
+            display: inline-block;
             cursor: pointer;
         }
 
-        .out-of-stock-button {
-            background-color: #e3342f; 
-            color: white;
-            cursor: not-allowed;
+        .edit-button,
+        .delete-button {
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        .flex-button-container {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
         </style>
         <script>
@@ -303,50 +307,27 @@
                     }       
                 }
             }
-
-            function openModal() {
-                document.getElementById("customModal").style.display = "block";
-            }
-            
-            function closeModal() {
-                document.getElementById("customModal").style.display = "none";
-            }
-            
-            document.addEventListener('DOMContentLoaded', function() {
-                var now = new Date();
-                var hours = now.getHours();
-                var isBorrowableTime = hours >= 14 && hours < 22; // Borrowable time from 14:00 to 21:59
-            
-                if (!isBorrowableTime) {
-                    openModal();
-                }
-            });
         </script>
 </head>
 <body>
-    <div id="customModal" class="custom-modal">
-        <div class="custom-modal-content">
-            <span class="custom-close" onclick="closeModal()">&times;</span>
-            <h2>แจ้งเตือน</h2>
-            <p>ไม่สามารถยืมได้นอกเหนือจากช่วงเวลา 14:00-22:00 น.</p>
-        </div>
-    </div>
     <div class="header">
         <div class="upper-layer">
             <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-        <div class="university-names">
-            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-            <div class="sub-university-name">Ubon Ratchathani University</div>
-        </div>
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
         <div class="search-container">
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="ค้นหาอุปกรณ์" id="searchInput">
                 <button class="search-button" onclick="searchItems()">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon"> <!-- Make sure you have a search-icon.png file -->
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon">
                 </button>
             </div>
         </div>
@@ -363,11 +344,12 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/index-admin/">กลับไปหน้าหลัก</a>
+        <a href="/check-admin/">กลับไปหน้าหลัก</a>
         <a href="/create/">เพิ่มอุปกรณ์</a>
         <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
         <a href="/return-item/">ตารางยืนยันการคืน</a>
-        <a href="#">Dashboard</a>
+        <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+        <a href="/dashboard/">Dashboard</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div class="container mx-auto px-4">
@@ -385,12 +367,14 @@
             {{it.name}}
         </div>
         <div class="flex-container">
-            <div>
-                <a href="/edit/{{it.id}}/" >แก้ไข</a>
-                <a href="/delete/{{it.id}}/" >ลบ</a>
+            <div class="flex-container">
+                <div class="flex-button-container">
+                    <a href="/edit/{{it.id}}/" class="edit-button mb-auto">แก้ไข</a>
+                    <a href="/delete/{{it.id}}/" class="delete-button mb-auto">ลบ</a>
+                </div>
             </div>
             <div class="item-count">
-                เหลือ {{it.quantity}}
+                จำนวน {{it.quantity}}
             </div>
         </div>
     </div>

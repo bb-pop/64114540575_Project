@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo profile</title>
+    <title>Demo Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="static/style.css">
     <style>
@@ -155,6 +155,13 @@
         .dropdown-menu a:hover {
             background-color: #ddd;
         }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
         </style>
         <script>
             function showCurrentTime() {
@@ -181,11 +188,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
+        </a>
         <div class="user">
             {% if user.is_authenticated %}
             <p>{{user.first_name}} {{user.last_name}}</p>
@@ -201,7 +210,7 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/">กลับไปหน้าหลัก</a>
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>

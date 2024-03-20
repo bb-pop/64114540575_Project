@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo detail</title>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Demo Detail</title>
+    <link rel="stylesheet" href="\static\user\cssitem_detail.css">
     <style>
         * {
             margin: 0;
@@ -27,8 +27,7 @@
             width: auto;
             height: auto;
         }
-
-
+        
         .header, .lower-layer {
             z-index: 1000;
             position: relative;
@@ -85,7 +84,6 @@
             margin-left: auto;
         }
         
-
         .hamburger-menu {
             cursor: pointer;
             display: inline-block;
@@ -114,13 +112,13 @@
             cursor: pointer;
             display: inline-block;
         }
-
+        
         .hamburger-icon {
             padding: 10px;
             border-radius: 50%;
             background-color: #fff;
         }
-
+        
         .hamburger-icon span {
             display: block;
             width: 25px;
@@ -128,12 +126,11 @@
             background-color: #20409A;
             margin-bottom: 5px;
         }
-
+        
         .hamburger-icon span:last-child {
             margin-bottom: 0;
         }
-
-
+        
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -144,7 +141,7 @@
             right: 10px;
             top: 100px;
         }
-
+        
         .dropdown-menu a {
             color: black;
             padding: 12px 16px;
@@ -152,11 +149,11 @@
             display: block;
             text-align: left;
         }
-
+        
         .dropdown-menu a:hover {
             background-color: #ddd;
         }
-
+        
         .item-detail-container {
             display: flex;
             justify-content: center;
@@ -200,7 +197,7 @@
             color: #E02D29;
             margin-bottom: 10px;
         }
-
+        
         .borrow-button {
             text-align: center;
             font-size: large;
@@ -219,7 +216,7 @@
         .borrow-button:hover {
             background-color: #1a3370;
         }
-
+        
         .confine span {
             display: block;
             width: auto;
@@ -227,24 +224,31 @@
             background-color: #000000;
             margin-top: auto;
         }
-        </style>
-        <script>
-            function showCurrentTime() {
-                var today = new Date();
-                var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
-                document.getElementById('currentTime').innerHTML = time;
+        
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+    <script>
+        function showCurrentTime() {
+            var today = new Date();
+            var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
+            document.getElementById('currentTime').innerHTML = time;
+        }
+        setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
+        
+        function toggleMenu() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            if (dropdownMenu.style.display === "block") {
+                dropdownMenu.style.display = "none";
+            } else {
+                dropdownMenu.style.display = "block";
             }
-            setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
-            
-            function toggleMenu() {
-                var dropdownMenu = document.getElementById("dropdownMenu");
-                if (dropdownMenu.style.display === "block") {
-                    dropdownMenu.style.display = "none";
-                } else {
-                    dropdownMenu.style.display = "block";
-                }
-            }
-        </script>
+        }
+    </script>
 </head>
 <body>
     
@@ -254,11 +258,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
-        <div class="university-names">
-            <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
-            <div class="sub-university-name">Ubon Ratchathani University</div>
-        </div>
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
         <div class="user">
             {% if user.is_authenticated %}
             <p>{{user.first_name}} {{user.last_name}}</p>
@@ -274,7 +280,7 @@
         </div>
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/">กลับไปหน้าหลัก</a>
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
         <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>

@@ -87,6 +87,7 @@
             text-align: center;
             background-color: #ffffff;
             border: 1px solid #ccc;
+            border-radius: 5px;
         }
         
         .login-title {
@@ -95,6 +96,12 @@
             margin-bottom: 45px;
         }
         
+        .header-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
         .login-btn {
             text-decoration: none;
             color: black;
@@ -132,11 +139,13 @@
         </div>
     </div>
     <div class="lower-layer">
-        <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
             <div class="university-names">
                 <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
                 <div class="sub-university-name">Ubon Ratchathani University</div>
             </div>
+        </a>
         <div class="user">
             <p id="currentTime"></p>
         </div>
@@ -145,7 +154,7 @@
         <div class="login-box">
             {% load socialaccount %}
             <div class="login-title">Account UBU Login</div>
-            <a href="{% provider_login_url 'google' %}?next=/" class="login-btn">Google</a>
+            <a href="{% provider_login_url 'google' %}?next=/" class="login-btn">Login with Google</a>
         </div>
     </div>
 </body>

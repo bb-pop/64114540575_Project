@@ -1,10 +1,10 @@
-import datetime
 from datetime import timedelta
 from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import logout
+from maindemo import models
 from maindemo.models import BorrowRecord, Item, UserProfile
 from maindemo.forms import ItemForm
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,13 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from .forms import UserProfileForm
 from django.db.models import F
+from django.contrib.auth.models import User
+from django.db.models import Count
+from django.utils.deprecation import MiddlewareMixin
+from django.urls import reverse
+
+#User
+
 
 def home(request):
     if request.user.is_authenticated: 
@@ -82,7 +89,7 @@ def confirm(request, id):
     #     return redirect('index')
 
     # ตรวจสอบประวัติการยืมที่มีสถานะ "waiting" หรือ "borrowing"
-    existing_borrow = BorrowRecord.objects.filter(borrower=request.user.userprofile, status__in=['waiting', 'borrowing']).exists()
+    existing_borrow = BorrowRecord.objects.filter(borrower=request.user.userprofile, status__in=['waiting', 'borrowing', 'notreturn']).exists()
     if existing_borrow:
         return redirect('index')
 
@@ -153,12 +160,36 @@ def check_and_cancel_borrows(request):
     for record in records_to_cancel:
         record.status = 'cancel'
         record.save()
-        record.item.quantity += record.quantity  # ตรวจสอบว่าโมเดล Item มีฟิลด์ quantity และสามารถเพิ่มค่าได้
+        record.item.quantity += record.quantity
         record.item.save()
         count += 1
 
     messages.success(request, f'Cancelled {count} borrow records.')
     return redirect('/')
+
+
+#Admin
+
+
+@login_required
+def check_and_cancel_admin(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    now = timezone.now()
+    ten_minutes_ago = now - timedelta(minutes=10)
+    records_to_cancel = BorrowRecord.objects.filter(status='waiting', borrow_date__lte=ten_minutes_ago)
+
+    count = 0
+    for record in records_to_cancel:
+        record.status = 'cancel'
+        record.save()
+        record.item.quantity += record.quantity
+        record.item.save()
+        count += 1
+
+    messages.success(request, f'Cancelled {count} borrow records.')
+    return redirect('index_admin')
 
 @login_required
 def index_admin(request):
@@ -180,7 +211,7 @@ def create(request):
         form = ItemForm(request.POST, request.FILES) 
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('index_admin')
     else:
         form = ItemForm()
     context = {
@@ -239,8 +270,6 @@ def reject (request, record_id):
         borrow_record.save()
         borrow_record.item.quantity += borrow_record.quantity
         borrow_record.item.save()
-    else:
-        messages.error(request, "")
 
     return redirect('approve_admin')
 
@@ -254,8 +283,6 @@ def approve_borrow(request, record_id):
     if borrow_record.status == 'waiting' and request.user.has_perm('maindemo.change_borrowrecord'):
         borrow_record.status = 'borrowing'
         borrow_record.save()
-    else:
-        messages.error(request, "")
 
     return redirect('approve_admin')
 
@@ -282,3 +309,57 @@ def confirm_return(request, record_id):
     item.save()
 
     return redirect('return_item')
+
+@login_required
+def not_returned(request, record_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+
+    # ค้นหา BorrowRecord ที่ต้องการเปลี่ยนสถานะ
+    borrow_record = get_object_or_404(BorrowRecord, pk=record_id, status='borrowing')
+    borrow_record.status = 'notreturn'
+    borrow_record.save()
+
+    return redirect('return_item') 
+
+@login_required
+def noreturn_admin(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrow_records = BorrowRecord.objects.filter(status='notreturn')
+    return render(request, 'admin/noretrun-admin.html', {'borrow_records': borrow_records})
+
+@login_required
+def confirm_noreturn(request, record_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    borrow_record = get_object_or_404(BorrowRecord, pk=record_id, status='notreturn')
+    borrow_record.status = 'returned'
+    borrow_record.return_date = timezone.now()  
+    borrow_record.save()
+
+    item = borrow_record.item
+    item.quantity += borrow_record.quantity
+    item.save()
+
+    return redirect('noreturn_admin')
+
+# @login_required
+# def dashboard(request):
+#     if not request.user.is_staff and not request.user.is_superuser:
+#         return redirect('/')
+#     # Assumption: 'popular_items' is a QuerySet containing items sorted by their popularity.
+#     popular_items = Item.objects.all().order_by('-some_popularity_metric')[:10]
+#     faculty_stats = UserProfile.objects.values('faculty').annotate(count=models.Count('faculty')).order_by('-count')
+
+#     max_count_popular = popular_items[0].some_popularity_metric if popular_items else 0
+#     max_count_faculty = faculty_stats[0]['count'] if faculty_stats else 0
+
+#     return render(request, 'dashboard.html', {
+#         'popular_items': popular_items,
+#         'faculty_stats': faculty_stats,
+#         'max_count_popular': max_count_popular,
+#         'max_count_faculty': max_count_faculty,
+#     })

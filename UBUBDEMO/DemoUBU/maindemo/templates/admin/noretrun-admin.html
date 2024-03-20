@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Approveborrow</title>
+    <title>Demo NoReturn</title>
     <link rel="stylesheet" href="static/style.css">
     <style>
         * {
@@ -201,13 +201,13 @@
             background-color: #45a049;
         }
         
-        .btn-danger {
-            background-color: #f44336;
+        .btn-noreturn {
+            background-color: #f1c40f;
             color: white;
         }
         
-        .btn-danger:hover {
-            background-color: #da190b;
+        .btn-noreturn:hover {
+            background-color: #c49f0d;
         }
         
         @media (max-width: 768px) {
@@ -342,7 +342,7 @@
     </div>
     <div class="container">
         <div class="table-container" style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <h1 class="titlename">ตารางอนุมัติการยืม</h1>
+            <h1 class="titlename">ตารางยังไม่คืนของ</h1>
             <div class="search-container">
                 <div class="search-box">
                     <input type="text" class="search-input" placeholder="ค้นหาด้วยรหัสนักศึกษา" id="searchInput" onkeyup="enterSearch(event)">
@@ -361,32 +361,28 @@
                         <th>รหัสนักศึกษา</th>
                         <th>วันที่ยืม</th>
                         <th>เวลาที่ยืม</th>
-                        <th>อนุมัติ</th>
-                        <th>ไม่อนุมัติ</th>
+                        <th>คืนเเล้ว</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for record in borrow_records %}
-                        {% if record.status == 'waiting' %}
+                        {% if record.status == 'notreturn' %}
                             <tr>
-                                <td><img class="img-thumbnail" src="{{ record.item.image.url }}" alt="{{ record.item.name }}"></td>
+                                <td><img src="{{ record.item.image.url }}" alt="{{ record.item.name }}" class="img-thumbnail"></td>
                                 <td>{{ record.item.name }}</td>
                                 <td>{{ record.quantity }}</td>
-                                <td>{{ record.borrower.user.get_full_name }}</td>
+                                <td>{{ record.borrower.first_name }} {{ record.borrower.last_name }}</td>
                                 <td class="id-student">{{ record.borrower.id_student }}</td>
                                 <td>{{ record.borrow_date|date:"d/m/y" }}</td>
                                 <td>{{ record.borrow_date|date:"H:i น." }}</td>
                                 <td>
-                                    <a href="{% url 'approve_borrow' record.id %}" class="btn btn-success">อนุมัติ</a>
-                                </td>
-                                <td>
-                                    <a href="{% url 'reject' record.id %}" class="btn btn-danger">ไม่อนุมัติ</a>
+                                    <a href="{% url 'confirm_noreturn' record.id %}" class="btn btn-success">ยืนยันการคืน</a>
                                 </td>
                             </tr>
                         {% endif %}
                     {% empty %}
                         <tr>
-                            <td colspan="9">ไม่มีบันทึกการยืมที่รอการอนุมัติ</td>
+                            <td colspan="8">ไม่มีรายการยืมที่ต้องคืน</td>
                         </tr>
                     {% endfor %}
                 </tbody>

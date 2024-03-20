@@ -36,6 +36,7 @@ class BorrowRecord(models.Model):
         ('borrowing', 'กำลังยืม'),
         ('returned', 'คืนแล้ว'),
         ('cancel' , 'ยกเลิก'),
+        ('notreturn','ไม่คืนของ'),
     )
     
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name="อุปกรณ์")
