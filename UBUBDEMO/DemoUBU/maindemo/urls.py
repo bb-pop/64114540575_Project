@@ -10,6 +10,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('edit-profile/', views.edit_user_profile, name='edit-profile'),
     path('contact/', views.contact, name='contact'),
+    path('rules/', views.rules, name='rules'),
     path('detail/<int:id>/', views.detail, name='detail'),
     path('confirm/<int:id>/', views.confirm, name='confirm'),
     path('history/', views.history, name='history'),
@@ -31,7 +32,7 @@ urlpatterns = [
     path('not-returned/<int:record_id>/', views.not_returned, name='not_returned'),
     path('noreturn-admin/', views.noreturn_admin, name='noreturn_admin'),
     path('confirm_noreturn/<int:record_id>/', views.confirm_noreturn, name='confirm_noreturn'),
-    # path('dashboard/', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

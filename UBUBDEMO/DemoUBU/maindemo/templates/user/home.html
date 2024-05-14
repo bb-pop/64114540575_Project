@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Demo Login</title>
+    <title>เข้าสู่ระบบ</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
     <style>
         * {
             margin: 0;
@@ -32,7 +33,7 @@
         
 
         .header, .lower-layer {
-        z-index: 10;
+            z-index: 10;
         }
         
         .header {
@@ -121,6 +122,26 @@
         .user{
             display: grid;
             margin-left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+            
+            .university-name {
+                font-size: 10.1px;
+            }
+            
+            .sub-university-name {
+                font-size: 9px;
+            }
+            
+            .user{
+                font-size: 12px;
+            }
         }
         </style>
         <script>

@@ -46,7 +46,7 @@ class DemoAdminArea(admin.AdminSite):
     site_title = "หน้าผู้ดูเเลระบบ"
     login_template = 'demo/admin/login.html'
     
-demo_site = DemoAdminArea(name='DemoAdmin')
+demo_site = DemoAdminArea(name='AdminLogin')
 
 demo_site.register(models.Item,ItemAdmin)
 demo_site.register(models.UserProfile,UserProfileAdmin)

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Detail</title>
+    <title>รายละเอียดอุกรณ์</title>
     <link rel="stylesheet" href="\static\user\cssitem_detail.css">
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
     <style>
         * {
             margin: 0;
@@ -231,6 +232,62 @@
             text-decoration: none;
             color: inherit;
         }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+            
+            .university-name {
+                font-size: 10.1px;
+            }
+            
+            .sub-university-name {
+                font-size: 9px;
+            }
+            
+            .user{
+                font-size: 12px;
+            }
+
+            .dropdown-menu {
+                font-size: 12px;
+                width: 130px;
+            }
+
+            .item-detail-container {
+                margin-top: 10px;
+                padding: 20px;
+                width: 450px;
+                height: 400px;
+            }
+
+            .item-image {
+                width: 200px;
+                height: 100%;
+            }
+
+            .item-image-container {
+                border: none;
+                box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.1);
+            }
+
+            .borrow-button {
+                margin-top: 70px;
+            }
+
+            @media (max-width: 480px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .sidebar, .hamburger-menu {
+                    display: none;
+                }
+            }
+        }
     </style>
     <script>
         function showCurrentTime() {
@@ -267,7 +324,11 @@
         </a>
         <div class="user">
             {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
             {% endif %}
             <p id="currentTime"></p>
         </div>
@@ -281,9 +342,10 @@
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="/check-cancels/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div class="item-detail-container">

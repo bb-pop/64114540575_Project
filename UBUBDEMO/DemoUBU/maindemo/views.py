@@ -1,10 +1,10 @@
 from datetime import timedelta
+import datetime
 from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import logout
-from maindemo import models
 from maindemo.models import BorrowRecord, Item, UserProfile
 from maindemo.forms import ItemForm
 from django.contrib.auth.decorators import login_required
@@ -12,10 +12,14 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from .forms import UserProfileForm
 from django.db.models import F
-from django.contrib.auth.models import User
+from .forms import DateRangeForm
+from django.db.models import Q
+import pandas as pd
+from django.http import HttpResponse
 from django.db.models import Count
-from django.utils.deprecation import MiddlewareMixin
-from django.urls import reverse
+from django.http import JsonResponse
+
+
 
 #User
 
@@ -70,23 +74,15 @@ def detail(request, id):
     }
     return render(request, 'user/item_detail.html', context)
 
-# @login_required
-# def confirm(request, id):
-#     it = Item.objects.get(pk=id)
-#     context = {
-#         'it': it,
-#     }
-#     return render(request, 'confirm.html', context)
-
 @login_required
 def confirm(request, id):
     item = get_object_or_404(Item, pk=id)
-    # current_time = timezone.localtime(timezone.now()).time()
-    # start_time = datetime.time(14, 0) 
-    # end_time = datetime.time(22, 0)  
+    current_time = timezone.localtime(timezone.now()).time()
+    start_time = datetime.time(1, 0) 
+    end_time = datetime.time(22, 0)  
 
-    # if not start_time <= current_time <= end_time:
-    #     return redirect('index')
+    if not start_time <= current_time <= end_time:
+        return redirect('index')
 
     # ตรวจสอบประวัติการยืมที่มีสถานะ "waiting" หรือ "borrowing"
     existing_borrow = BorrowRecord.objects.filter(borrower=request.user.userprofile, status__in=['waiting', 'borrowing', 'notreturn']).exists()
@@ -167,6 +163,9 @@ def check_and_cancel_borrows(request):
     messages.success(request, f'Cancelled {count} borrow records.')
     return redirect('/')
 
+@login_required
+def rules(request):
+    return render(request, "user/rules.html")
 
 #Admin
 
@@ -346,20 +345,64 @@ def confirm_noreturn(request, record_id):
 
     return redirect('noreturn_admin')
 
-# @login_required
-# def dashboard(request):
-#     if not request.user.is_staff and not request.user.is_superuser:
-#         return redirect('/')
-#     # Assumption: 'popular_items' is a QuerySet containing items sorted by their popularity.
-#     popular_items = Item.objects.all().order_by('-some_popularity_metric')[:10]
-#     faculty_stats = UserProfile.objects.values('faculty').annotate(count=models.Count('faculty')).order_by('-count')
+@login_required
+def dashboard(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('/')
+    
+    form = DateRangeForm(request.GET or None)
+    records = BorrowRecord.objects.all()
 
-#     max_count_popular = popular_items[0].some_popularity_metric if popular_items else 0
-#     max_count_faculty = faculty_stats[0]['count'] if faculty_stats else 0
+    if form.is_valid():
+        start_date = form.cleaned_data.get('start_date')
+        end_date = form.cleaned_data.get('end_date')
+        
+        if start_date and end_date:
+            records = records.filter(borrow_date__gte=start_date, borrow_date__lte=end_date)
 
-#     return render(request, 'dashboard.html', {
-#         'popular_items': popular_items,
-#         'faculty_stats': faculty_stats,
-#         'max_count_popular': max_count_popular,
-#         'max_count_faculty': max_count_faculty,
-#     })
+    if 'export' in request.GET and records.exists():
+        response = export_records_to_excel(records)
+        return response
+
+    context = {
+        'form': form,
+        'records': records,
+    }
+    return render(request, 'admin/dashboard.html', context)
+
+def export_records_to_excel(records):
+    data = []
+    for i, record in enumerate(records, start=1):
+        if record.status in ['cancel', 'ยกเลิก', 'notreturn', 'ไม่คืนของ']:
+            return_date = '-'
+            return_time = '-'
+        else:
+            return_date = record.return_date.strftime('%d/%m/%Y') if record.return_date else '-'
+            return_time = record.return_date.strftime('%H:%M') if record.return_date else '-'
+
+        row = {
+            'ลำดับ': i,
+            'ชื่ออุปกรณ์': record.item.name,
+            'จำนวน': record.quantity,
+            'คณะ': record.borrower.faculty,
+            'รหัสนักศึกษา': record.borrower.id_student,
+            'วันที่ยืม ว/ด/ป': record.borrow_date.strftime('%d/%m/%Y') if record.borrow_date else '',
+            'เวลาที่ยืม': record.borrow_date.strftime('%H:%M') if record.borrow_date else '',
+            'วันที่ที่คืน ว/ด/ป': return_date,
+            'เวลาที่คืน': return_time,
+            'สถานะ': record.get_status_display()
+        }
+        data.append(row)
+
+    df = pd.DataFrame(data)
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename="records_export.xlsx"'
+
+    # Using Pandas to write the DataFrame to an Excel file
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False)
+
+    return response

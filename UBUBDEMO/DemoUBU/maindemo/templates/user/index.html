@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Index</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>หน้าหลัก</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
     <style>
         * {
             margin: 0;
@@ -19,17 +19,50 @@
             margin: 0;
         }
 
-        
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            margin-top: 35px;
-            width: auto;
-            height: auto;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .flex-col {
+            flex-direction: column;
+        }
 
         .header, .lower-layer {
             z-index: 1000;
@@ -258,9 +291,9 @@
 
         .custom-modal-content {
             background-color: #fefefe;
-            margin: 15% auto; 
+            margin: 21% auto; 
             padding: 20px;
-            border: 1px solid #888;
+            border: 1px solid rgb(255, 0, 0);
             width: 50%; 
         }
 
@@ -289,6 +322,63 @@
             align-items: center;
             text-decoration: none;
             color: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .container{
+                margin-top: 5px;
+            }
+
+            .grid {
+                margin-right: 10px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-top: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px; 
+            }
+
+            .logo {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+            
+            .university-name {
+                font-size: 10.1px;
+            }
+            
+            .sub-university-name {
+                font-size: 9px;
+            }
+            
+            .user{
+                font-size: 12px;
+            }
+
+            .search-input {
+                width: 105px;
+                font-size: 12px;
+            }
+
+            .dropdown-menu {
+                font-size: 12px;
+                width: 130px;
+            }
+
+            @media (max-width: 480px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .sidebar, .hamburger-menu {
+                    display: none;
+                }
+            }
         }
         </style>
         <script>
@@ -337,7 +427,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 var now = new Date();
                 var hours = now.getHours();
-                var isBorrowableTime = hours >= 14 && hours < 22; // Borrowable time from 14:00 to 21:59
+                var isBorrowableTime = hours >= 14 && hours < 19; // Borrowable time from 14:00 to 21:59
             
                 if (!isBorrowableTime) {
                     openModal();
@@ -349,8 +439,8 @@
     <div id="customModal" class="custom-modal">
         <div class="custom-modal-content">
             <span class="custom-close" onclick="closeModal()">&times;</span>
-            <h2>แจ้งเตือน</h2>
-            <p>ไม่สามารถยืมได้นอกเหนือจากช่วงเวลา 14:00-22:00 น.</p>
+            <h2>!!!แจ้งเตือน!!!</h2>
+            <p>ไม่สามารถยืมได้นอกเหนือจากช่วงเวลา 14:00-19:00 น.</p>
         </div>
     </div>
     <div class="header">
@@ -376,7 +466,11 @@
         </div>
         <div class="user">
             {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
             {% endif %}
             <p id="currentTime"></p>
         </div>
@@ -390,41 +484,42 @@
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="/check-cancels/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
-    <div class="container mx-auto px-4">
-    <div class="grid grid-cols-4 gap-4 mt-8">
-        {% for it in items%}
-    <div class="item-background">
-        <div>
-            {% if it.image %}
-                <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
-            {% else %}
-                No Image
-            {% endif %}
-        </div>
-        <div class="item-name">
-            {{it.name}}
-        </div>
-        <div class="item-description">
-            *{{it.description}}*
-        </div>
-        <div class="flex-container">
-            {% if it.quantity > 0 %}
-                <a href="/detail/{{ it.id }}/" class="borrow-button mb-auto">ยืม</a> 
-            {% else %}
-                <button class="borrow-button mb-auto out-of-stock-button" disabled>หมด</button>
-            {% endif %}
-            <div class="item-count">
-                เหลือ {{it.quantity}}
+    <div class="container">
+        <div class="grid">
+            {% for it in items%}
+            <div class="item-background">
+                <div>
+                    {% if it.image %}
+                        <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </div>
+                <div class="item-name">
+                    {{it.name}}
+                </div>
+                <div class="item-description">
+                    *{{it.description}}*
+                </div>
+                <div class="flex-container">
+                    {% if it.quantity > 0 %}
+                        <a href="/detail/{{ it.id }}/" class="borrow-button mb-auto">ยืม</a> 
+                    {% else %}
+                        <button class="borrow-button mb-auto out-of-stock-button" disabled>หมด</button>
+                    {% endif %}
+                    <div class="item-count">
+                        เหลือ {{it.quantity}}
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
-    </div>
-        {% endfor %}
-    </div>
     </div>
 </body>
 </html>

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/style.css">
-    <title>Demo Edit</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    <title>เเก้ไขอุปกรณ์</title>
     <style>
         * {
             margin: 0;
@@ -15,23 +16,10 @@
         body, html {
             background-color: #3498db;
             height: 100%;
-            margin: 0;
-        }
-        
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: auto;
-            height: auto;
         }
         
         .header, .lower-layer {
-        z-index: 10;
+            z-index: 10;
         }
         
         .header {
@@ -83,76 +71,7 @@
         .user{
             display: grid;
             margin-left: auto;
-        }
-        
-        .hamburger-menu {
-            cursor: pointer;
-            display: inline-block;
-        }
-        
-        .hamburger-icon {
-            display: inline-block;
-            padding: 10px;
-            border-radius: 50%;
-            background-color: #fff;
-        }
-        
-        .hamburger-icon span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: #20409A;
-            margin-bottom: 4px;
-        }
-        
-        .hamburger-icon span:last-child {
-            margin-bottom: 0;
-        }
-        
-        .hamburger-menu {
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .hamburger-icon {
-            padding: 10px;
-            border-radius: 50%;
-            background-color: #fff;
-        }
-
-        .hamburger-icon span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: #20409A;
-            margin-bottom: 5px;
-        }
-
-        .hamburger-icon span:last-child {
-            margin-bottom: 0;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            right: 10px;
-            top: 100px;
-        }
-
-        .dropdown-menu a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #ddd;
+            margin-right: 15px;
         }
 
         .header-link {
@@ -160,6 +79,102 @@
             align-items: center;
             text-decoration: none;
             color: inherit;
+            margin-left: 15px;
+        }
+
+        .main-content {
+            display: flex;
+        }
+        
+        .sidebar {
+            flex: 0 0 250px; /* กำหนดความกว้างของ sidebar */
+            background-color: #20409A; /* กำหนดสีพื้นหลังของ sidebar */
+            height: 700px; /* กำหนดให้ sidebar มีความสูงเต็มหน้าจอ */
+            padding-top: 20px; /* กำหนดระยะห่างจากด้านบนของ sidebar */
+        }
+        
+        .sidebar a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 25px;
+        }
+        
+        .sidebar a:hover {
+            background-color: #246997;
+        }
+        
+        .content {
+            flex-grow: 1;
+            padding: 20px; 
+        }
+
+        .save-button {
+            text-align: center;
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: #20409A;
+            padding: 10px 10px;
+            border-radius: 5px;
+            border: none;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        .form-header {
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .edit-form {
+            display: grid;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .form-group, .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .form-fields {
+            flex-basis: 60%;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%; 
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        label {
+            margin-bottom: 5px;
+            color: #333;
+            margin-top: 5px;
+        }
+        
+        .item-image {
+            width: 450px;
+            height: 500px;
+            margin-right: 10px;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            margin: 50px auto;
+            width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 550px;
+            padding: 20px;
         }
         </style>
         <script>
@@ -169,15 +184,6 @@
                 document.getElementById('currentTime').innerHTML = time;
             }
             setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
-            
-            function toggleMenu() {
-                var dropdownMenu = document.getElementById("dropdownMenu");
-                if (dropdownMenu.style.display === "block") {
-                    dropdownMenu.style.display = "none";
-                } else {
-                    dropdownMenu.style.display = "block";
-                }
-            }
         </script>
 </head>
 <body>
@@ -195,53 +201,64 @@
             </div>
         </a>
         <div class="user">
-            <p>ADMIN</p>
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
             <p id="currentTime"></p>
         </div>
-        <div class="hamburger-menu" onclick="toggleMenu()">
-            <div class="hamburger-icon">
-                <span></span>
-                <span></span>
-                <span></span>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="/check-admin/">กลับไปหน้าหลัก</a>
+            <a href="/create/">เพิ่มอุปกรณ์</a>
+            <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+            <a href="/return-item/">ตารางยืนยันการคืน</a>
+            <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+            <a href="/dashboard/">ข้อมูลรายการยืม</a>
+            <a href="/logout/">ออกจากระบบ</a>
+        </div>
+        <div class="content">
+            <div class="container">
+                {% if it.image %}
+                <img src="{{ it.image.url }}" alt="Current Image" class="item-image"/>
+                {% endif %}
+                <div class="form-container">
+                    <div class="form-fields">
+                        <div class="form-header">
+                            <h1>แก้ไขอุปกรณ์กีฬา</h1>
+                        </div>
+                        <form action="/edit/{{it.id}}/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token%}
+                            <div>
+                                <label for="image">รูป</label>
+                                <input type="file" name="image" id="image">
+                            </div>
+                            <div class="input-group">
+                                <label for="name">ชื่อ</label>
+                                <input type="text" id="name" name="name" value="{{ form.instance.name }}">
+                            </div>
+                            <div class="input-group">
+                                <label for="description">คำบรรยาย</label>
+                                <input type="text" id="description" name="description" value="{{ form.instance.description }}">
+                            </div>
+                            <div class="input-group">
+                                <label for="quantity">จำนวนของ</label>
+                                <input type="number" id="quantity" name="quantity" value="{{ form.instance.quantity }}">
+                            </div>
+                            <div class="input-group">
+                                <label for="max-borrow-time">กำหนดเวลายืม(นาที)</label>
+                                <input type="number" id="max-borrow-time" name="max_borrow_time" value="{{ form.instance.max_borrow_time }}">
+                            </div>
+                            <button type="submit" class="save-button">บันทึก</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/check-admin/">กลับไปหน้าหลัก</a>
-        <a href="/create/">เพิ่มอุปกรณ์</a>
-        <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
-        <a href="/return-item/">ตารางยืนยันการคืน</a>
-        <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
-        <a href="/dashboard/">Dashboard</a>
-        <a href="/logout/">ออกจากระบบ</a>
-    </div>
-    </div>
-    <h1>Edit</h1>
-    <div>
-        <form action="/edit/{{it.id}}/" method="POST">
-            {% csrf_token%}
-            <div>
-                <label>ชื่อ </label>
-                <input type="text" name="name" value="{{form.instance.name}}">
-            </div>
-            <div>
-                <label>คำบรรยาย </label>
-                <input type="text" name="description" value="{{form.instance.description}}">
-            </div>
-            <div>
-                <label>จำนวนของ </label>
-                <input type="number" name="quantity" value="{{form.instance.quantity}}">
-            </div>
-            <div>
-                <label>รูป </label>
-                <input type="file" name="image" value="{{form.instance.image}}">
-            </div>
-            <div>
-                <label>กำหนดเวลายืม </label>
-                <input type="number" name="max_borrow_time" value="{{form.instance.max_borrow_time}}">
-            </div>
-            <button type="submit">ยืนยันการเเก้ไข</button>
-        </form>
     </div>
 </body>
 </html>

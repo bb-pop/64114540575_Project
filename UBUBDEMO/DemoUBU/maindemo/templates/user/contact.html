@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/style.css">
-    <title>Demo Contact</title>
+    <title>ติดต่อเจ้าหน้าที่</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
     <style>
         * {
             margin: 0;
@@ -23,7 +24,6 @@
             top: 50%; 
             left: 50%;
             transform: translate(-50%, -50%); 
-            z-index: 999; 
             width: 500px;
             height: 300px;
             padding: 20px;
@@ -193,6 +193,36 @@
             text-decoration: none;
             color: inherit;
         }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+            
+            .university-name {
+                font-size: 10.1px;
+            }
+            
+            .sub-university-name {
+                font-size: 9px;
+            }
+            
+            .user{
+                font-size: 12px;
+            }
+
+            .dropdown-menu {
+                font-size: 12px;
+                width: 130px;
+            }
+
+            .contact-card {
+                width: 450px;
+                height: 350px;
+            }
+        }
     </style>
     <script>
         function showCurrentTime() {
@@ -228,7 +258,11 @@
         </a>
         <div class="user">
             {% if user.is_authenticated %}
-            <p>{{user.first_name}} {{user.last_name}}</p>
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
             {% endif %}
             <p id="currentTime"></p>
         </div>
@@ -242,9 +276,10 @@
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="/check-cancels/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">แก้ไขประวัติส่วนตัว</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
         <a href="/logout/">ออกจากระบบ</a>
     </div>
     <div class="contact-card">
