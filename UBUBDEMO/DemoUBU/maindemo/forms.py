@@ -35,3 +35,4 @@ class UserProfileForm(forms.ModelForm):
 class DateRangeForm(forms.Form):
     start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    item_id = forms.ModelChoiceField(queryset=Item.objects.all(), required=False, label='Item', empty_label="Select Item")

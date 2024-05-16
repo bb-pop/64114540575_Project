@@ -1,8 +1,5 @@
 from django.contrib import admin
-from django.contrib.admin import AdminSite
 from . import models
-from maindemo.models import Item, UserProfile
-
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = (
@@ -37,9 +34,6 @@ class BorrowRecordAdmin(admin.ModelAdmin):
         'status',
         'updated_at',
     )
-
-# admin.site.register(Item,ItemAdmin)
-# admin.site.register(UserProfile,UserProfileAdmin)
 
 class DemoAdminArea(admin.AdminSite):
     site_header = "หน้าผู้ดูเเลระบบ"

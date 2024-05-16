@@ -1,6 +1,5 @@
 from datetime import timedelta
 import datetime
-from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
@@ -13,12 +12,9 @@ from django.dispatch import receiver
 from .forms import UserProfileForm
 from django.db.models import F
 from .forms import DateRangeForm
-from django.db.models import Q
 import pandas as pd
 from django.http import HttpResponse
 from django.db.models import Count
-from django.http import JsonResponse
-
 
 
 #User
@@ -55,7 +51,6 @@ def edit_user_profile(request):
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            # ส่งกลับไปยังหน้าโปรไฟล์หรือหน้าอื่น
             return redirect('index')
     else:
         form = UserProfileForm(instance=profile)
@@ -84,7 +79,6 @@ def confirm(request, id):
     if not start_time <= current_time <= end_time:
         return redirect('index')
 
-    # ตรวจสอบประวัติการยืมที่มีสถานะ "waiting" หรือ "borrowing"
     existing_borrow = BorrowRecord.objects.filter(borrower=request.user.userprofile, status__in=['waiting', 'borrowing', 'notreturn']).exists()
     if existing_borrow:
         return redirect('index')
@@ -130,21 +124,10 @@ def cancel_borrow(request, record_id):
     record.status = 'cancel'
     record.save()
 
-    # เพิ่มจำนวนอุปกรณ์กลับ
     record.item.quantity += record.quantity
     record.item.save()
 
     return redirect('history')
-
-# @receiver(pre_save, sender=BorrowRecord)
-# def update_quantity(sender, instance, **kwargs):
-#     if instance.pk:
-#         old_record = BorrowRecord.objects.get(pk=instance.pk)
-#         if old_record.status == 'borrowing' and instance.status == 'returned':
-#             instance.item.quantity += instance.quantity
-#             instance.item.save()
-#         elif old_record.status == 'waiting' and instance.status == 'cancel':
-#             pass
 
 @login_required
 def check_and_cancel_borrows(request):
@@ -166,6 +149,7 @@ def check_and_cancel_borrows(request):
 @login_required
 def rules(request):
     return render(request, "user/rules.html")
+
 
 #Admin
 
@@ -253,7 +237,6 @@ def approve_admin(request):
     if not request.user.is_staff and not request.user.is_superuser:
         return redirect('/')
     
-    #BorrowRecord ที่มีสถานะ 'waiting'
     borrow_records = BorrowRecord.objects.filter(status='waiting')
     return render(request, 'admin/approve-borrow.html', {'borrow_records': borrow_records})
 
@@ -314,7 +297,6 @@ def not_returned(request, record_id):
     if not request.user.is_staff and not request.user.is_superuser:
         return redirect('/')
 
-    # ค้นหา BorrowRecord ที่ต้องการเปลี่ยนสถานะ
     borrow_record = get_object_or_404(BorrowRecord, pk=record_id, status='borrowing')
     borrow_record.status = 'notreturn'
     borrow_record.save()
@@ -350,15 +332,25 @@ def dashboard(request):
     if not request.user.is_staff and not request.user.is_superuser:
         return redirect('/')
     
+    items = Item.objects.all()
     form = DateRangeForm(request.GET or None)
     records = BorrowRecord.objects.all()
 
     if form.is_valid():
         start_date = form.cleaned_data.get('start_date')
         end_date = form.cleaned_data.get('end_date')
+        item_id = request.GET.get('item_id')
         
         if start_date and end_date:
             records = records.filter(borrow_date__gte=start_date, borrow_date__lte=end_date)
+        if item_id:
+            records = records.filter(item__id=item_id)
+            
+    total_borrows = records.count()
+
+    top_items = records.values('item__name').annotate(total=Count('id')).order_by('-total')[:3]
+
+    top_faculties = records.values('borrower__faculty').annotate(total=Count('id')).order_by('-total')[:3]
 
     if 'export' in request.GET and records.exists():
         response = export_records_to_excel(records)
@@ -367,6 +359,10 @@ def dashboard(request):
     context = {
         'form': form,
         'records': records,
+        'items': items,
+        'total_borrows': total_borrows,
+        'top_items': top_items,
+        'top_faculties': top_faculties
     }
     return render(request, 'admin/dashboard.html', context)
 
@@ -401,7 +397,6 @@ def export_records_to_excel(records):
     )
     response['Content-Disposition'] = 'attachment; filename="records_export.xlsx"'
 
-    # Using Pandas to write the DataFrame to an Excel file
     with pd.ExcelWriter(response, engine='openpyxl') as writer:
         df.to_excel(writer, index=False)
 

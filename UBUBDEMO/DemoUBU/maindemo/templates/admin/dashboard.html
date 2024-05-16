@@ -87,10 +87,10 @@
         }
         
         .sidebar {
-            flex: 0 0 250px; /* กำหนดความกว้างของ sidebar */
-            background-color: #20409A; /* กำหนดสีพื้นหลังของ sidebar */
-            height: auto; /* กำหนดให้ sidebar มีความสูงเท่ากับหน้าจอ */
-            padding-top: 20px; /* กำหนดระยะห่างจากด้านบนของ sidebar */
+            flex: 0 0 250px;
+            background-color: #20409A;
+            height: auto;
+            padding-top: 20px;
         }
         
         
@@ -103,7 +103,7 @@
         }
         
         .sidebar a:hover {
-            background-color: #246997;
+            background-color: #1e3b8b;
         }
         
         .content {
@@ -187,6 +187,32 @@
             background-color: #1e3b8b;
         }
 
+        .count {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .total_borrow, .item_borrow, .faculty_borrow {
+            flex: 1;
+            text-align: center;
+        }
+
+        .total_borrow {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        
+        .total_borrow {
+            text-align: left;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        
+        .faculty_borrow {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
     </style>
     <script>
         function showCurrentTime() {
@@ -194,14 +220,12 @@
             var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
             document.getElementById('currentTime').innerHTML = time;
         }
-        setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
+        setInterval(showCurrentTime, 1000);
     </script>
 </head>
 <body>
     <div class="header">
-        <div class="upper-layer">
-            <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
-        </div>
+        <div class="upper-layer"></div>
     </div>
     <div class="lower-layer">
         <a href="/check-admin/" class="header-link">
@@ -238,17 +262,42 @@
                     <form method="get" action="{% url 'dashboard' %}">
                         ตั้งเเต่วันที่ : {{ form.start_date }}
                         ถึงวันที่ : {{ form.end_date }}
+                        <select name="item_id">
+                            <option value="">เลือกอุปกรณ์</option>
+                            {% for item in items %}
+                            <option value="{{ item.id }}" {% if request.GET.item_id == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
                         <button type="submit" class="enter-button">ยืนยัน</button>
                         <button type="submit" name="export" value="1" class="export-button">ดาวน์โหลด</button>
                     </form>
+                    <div class="count">
+                        <div class="total_borrow">
+                            <h4>รายการยืมทั้งหมด : {{ total_borrows }} ครั้ง</h4>
+                        </div>
+                        <div class="item_borrow">
+                            <h4>อุปกรณ์ถูกยืม 3 อันดับ</h4>
+                            <ul>
+                                {% for item in top_items %}
+                                <ul>{{ item.item__name }} - {{ item.total }} ครั้ง</ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="faculty_borrow">
+                            <h4>คณะที่ยืม 3 อันดับ</h4>
+                            <ul>
+                                {% for faculty in top_faculties %}
+                                <ul>{{ faculty.borrower__faculty }} - {{ faculty.total }} ครั้ง</ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                     <h1 class="titlename">ข้อมูลรายการยืม</h1>
                     <table class="table table-striped">
                         <tr>
                             <th>ลำดับ</th>
-                            <!-- <th>รูป</th> -->
                             <th>ชื่ออุกรณ์</th>
                             <th>จำนวน</th>
-                            <!-- <th>ชื่อ-นามสกุล</th> -->
                             <th>คณะ</th>
                             <th>รหัสนักศึกษา</th>
                             <th>วันที่ยืม ว/ด/ป</th>
@@ -260,10 +309,8 @@
                         {% for record in records %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <!-- <td><img src="{{ record.item.image.url }}" alt="{{ record.item.name }}" style="width:100px;"></td> -->
                             <td>{{ record.item.name }}</td>
                             <td>{{ record.quantity }}</td>
-                            <!-- <td>{{ record.borrower.first_name }} {{ record.borrower.last_name }}</td> -->
                             <td>{{ record.borrower.faculty }}</td>
                             <td>{{ record.borrower.id_student }}</td>
                             <td>{{ record.borrow_date|date:"d/m/y" }}</td>

@@ -199,10 +199,10 @@
         }
         
         .sidebar {
-            flex: 0 0 250px; /* กำหนดความกว้างของ sidebar */
-            background-color: #20409A; /* กำหนดสีพื้นหลังของ sidebar */
-            height: 1000px; /* กำหนดให้ sidebar มีความสูงเต็มหน้าจอ */
-            padding-top: 20px; /* กำหนดระยะห่างจากด้านบนของ sidebar */
+            flex: 0 0 250px;
+            background-color: #20409A;
+            height: 1000px;
+            padding-top: 20px;
         }
         
         .sidebar a {
@@ -214,7 +214,7 @@
         }
         
         .sidebar a:hover {
-            background-color: #246997;
+            background-color: #1e3b8b;
         }
         
         .content {
@@ -228,30 +228,29 @@
             var time = "เวลา " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " น.";
             document.getElementById('currentTime').innerHTML = time;
         }
-        setInterval(showCurrentTime, 1000); // อัปเดตทุก 1 วินาที
+        setInterval(showCurrentTime, 1000);
 
         function searchItems() {
             let input = document.getElementById('searchInput');
             let filter = input.value.toUpperCase();
-            let tableContainer = document.getElementsByClassName('table-container')[0]; // Assuming your table is within this container
+            let tableContainer = document.getElementsByClassName('table-container')[0];
             let rows = tableContainer.getElementsByTagName('tr');
         
-            for (let i = 1; i < rows.length; i++) { // Start with 1 to skip the header row
+            for (let i = 1; i < rows.length; i++) {
                 let idCell = rows[i].getElementsByClassName('id-student')[0];
                 if (idCell) {
                     let textValue = idCell.textContent || idCell.innerText;
                     if (textValue.toUpperCase().indexOf(filter) > -1) {
-                        rows[i].style.display = ""; // Show the row
+                        rows[i].style.display = "";
                     } else {
-                        rows[i].style.display = "none"; // Hide the row
+                        rows[i].style.display = "none";
                     }
                 }
             }
         }
 
         function enterSearch(event) {
-            // ตรวจสอบว่าปุ่มที่กดคือ Enter หรือไม่
-            if (event.keyCode === 13) { // 13 คือรหัสของปุ่ม Enter
+            if (event.keyCode === 13) {
                 searchItems();
             }
         }
@@ -259,9 +258,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="upper-layer">
-            <!-- ส่วนด้านบนของ Header ยังคงเดิม -->
-        </div>
+        <div class="upper-layer"></div>
     </div>
     <div class="lower-layer">
         <a href="/check-admin/" class="header-link">
