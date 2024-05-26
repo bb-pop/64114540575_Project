@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>หน้าเเก้ไขโปรไฟส์</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="static/style.css">
     <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
     <style>
         * {
@@ -239,7 +238,7 @@
     </div>
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="/check-cancels/">กลับไปหน้าหลัก</a>
-        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขโปรไฟล์</a>
         <a href="/history/">ประวัติการยืม</a>
         <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
         <a href="/rules/">กฎระเบียบการยืม</a>
@@ -247,11 +246,11 @@
     </div>
     <div class="flex justify-center items-center h-screen">
         <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-            <h1 class="text-2xl font-semibold mb-6">เเก้ไขหน้าโปรไฟล์</h1>
+            <h1 class="text-2xl font-semibold mb-6">เเก้ไขโปรไฟล์</h1>
             <form method="POST">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <label class="block mb-1">ชื่อจริง</label>
+                    <label class="block mb-1">เพศ</label>
                     <div>
                         <select class="w-full border-2 border-gray-300 p-2 rounded" name="prefix">
                             <option value="นาย" {% if form.instance.prefix == "นาย" %}selected{% endif %}>นาย</option>
@@ -259,6 +258,7 @@
                             <option value="นางสาว" {% if form.instance.prefix == "นางสาว" %}selected{% endif %}>นางสาว</option>
                         </select>
                     </div>
+                    <label class="block mb-1">ชื่อ</label>
                     <input type="text" name="first_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.first_name }}">
                 </div>
                 <div class="mb-4">
@@ -266,7 +266,7 @@
                     <input type="text" name="last_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.last_name }}">
                 </div>
                 <div class="mb-4">
-                    <label class="block mb-1">รหัสประจำตัว</label>
+                    <label class="block mb-1">รหัสประจำตัวนักศึกษา</label>
                     <input type="text" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.id_student }}">
                 </div>
                 <div class="mb-4">

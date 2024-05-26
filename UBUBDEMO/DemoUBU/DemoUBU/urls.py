@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import include, path
 from maindemo.admin import demo_site
 from django.conf.urls.static import static

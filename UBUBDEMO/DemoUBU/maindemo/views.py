@@ -73,8 +73,8 @@ def detail(request, id):
 def confirm(request, id):
     item = get_object_or_404(Item, pk=id)
     current_time = timezone.localtime(timezone.now()).time()
-    start_time = datetime.time(1, 0) 
-    end_time = datetime.time(22, 0)  
+    start_time = datetime.time(0, 0) 
+    end_time = datetime.time(23, 0)  
 
     if not start_time <= current_time <= end_time:
         return redirect('index')
